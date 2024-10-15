@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_portfolio/widgets/expertise.dart';
 import 'package:my_portfolio/widgets/homewidget.dart';
+import 'package:my_portfolio/widgets/skills.dart';
 
 class Homescreen extends StatelessWidget {
   const Homescreen({super.key});
@@ -85,6 +86,8 @@ class Homescreen extends StatelessWidget {
                HomeWidget(),
                SizedBox(height: 100),
                ExpertiseScreen(),
+               SizedBox(height: 100),
+               Skills(),
              
             ],
           ),

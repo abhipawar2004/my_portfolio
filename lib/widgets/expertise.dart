@@ -82,7 +82,7 @@ class ExpertiseScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Image.asset(
-                    'assets/images/.png',
+                    'assets/images/Design.png',
                     height:50,
                   ),
 

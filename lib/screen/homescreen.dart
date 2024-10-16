@@ -81,15 +81,17 @@ class Homescreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.all(45),
-          child: Column(
-            children: [
-               HomeWidget(),
-               SizedBox(height: 100),
-               ExpertiseScreen(),
-               SizedBox(height: 100),
-               Skills(),
-             
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                 HomeWidget(),
+                 SizedBox(height: 100),
+                 ExpertiseScreen(),
+                 SizedBox(height: 100),
+                 Skills(),
+               
+              ],
+            ),
           ),
         ),
       ),

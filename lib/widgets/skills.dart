@@ -33,39 +33,39 @@ class Skills extends StatelessWidget {
         ),
         SizedBox(height: 20),
         
-        // Grid section
+        
         Container(
-          height: 500, // Adjust the height to fit your design
-          padding: EdgeInsets.symmetric(horizontal: 20), // Add horizontal padding to align grid
+          height: 500, 
+          padding: EdgeInsets.symmetric(horizontal: 20), 
           child: GridView.builder(
-            physics: NeverScrollableScrollPhysics(), // Prevent scrolling within the grid
+          
             itemCount: 6,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, // 3 columns
-              crossAxisSpacing: 20, // Spacing between grid items
+              crossAxisCount: 3, 
+              crossAxisSpacing: 20, 
               mainAxisSpacing: 20,
-              childAspectRatio: 1, // Makes the grid items square
+              childAspectRatio: .8, 
             ),
             itemBuilder: (context, index) {
-              // Skill card container
+              
               return Container(
                 decoration: BoxDecoration(
-                  color: Color(0xff1E1E1E), // Background color
-                  borderRadius: BorderRadius.circular(15), // Rounded corners
+                  color: Color(0xff1E1E1E),
+                  borderRadius: BorderRadius.circular(15), 
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Add your image assets here
+                  
                     Image.asset(
-                      _getSkillIcon(index), // Get the correct icon
+                      _getSkillIcon(index), 
                       height: 50,
                       width: 50,
                     ),
                     SizedBox(height: 10),
-                    // Skill title
+                    
                     Text(
-                      _getSkillName(index), // Get the correct skill name
+                      _getSkillName(index), 
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -82,13 +82,13 @@ class Skills extends StatelessWidget {
     );
   }
 
-  // Function to get the skill name
+  
   String _getSkillName(int index) {
     List<String> skills = ['Flutter', 'Python', 'Dart', 'Firebase', 'Git', 'Figma'];
     return skills[index];
   }
 
-  // Function to get the skill icon
+
   String _getSkillIcon(int index) {
     List<String> icons = [
       'assets/images/flutter.png',

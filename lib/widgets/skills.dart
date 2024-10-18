@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class Skills extends StatelessWidget {
   const Skills({super.key});
@@ -32,72 +33,55 @@ class Skills extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 20),
-        
-        
         Container(
-          height: 500, 
-          padding: EdgeInsets.symmetric(horizontal: 20), 
-          child: GridView.builder(
-          
-            itemCount: 6,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, 
-              crossAxisSpacing: 20, 
-              mainAxisSpacing: 20,
-              childAspectRatio: .8, 
-            ),
-            itemBuilder: (context, index) {
-              
-              return Container(
-                decoration: BoxDecoration(
-                  color: Color(0xff1E1E1E),
-                  borderRadius: BorderRadius.circular(15), 
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                  
-                    Image.asset(
-                      _getSkillIcon(index), 
-                      height: 50,
-                      width: 50,
-                    ),
-                    SizedBox(height: 10),
-                    
-                    Text(
-                      _getSkillName(index), 
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
+          height: 500,
+          width:700,
+          child: GridView.count(
+            crossAxisCount: 3,
+            crossAxisSpacing: 40,
+            mainAxisSpacing: 40,
+             
+            children: [
+              _card('Flutter', 'assets/images/flutter.png'),
+              _card('Python', 'assets/images/python.png'),
+              _card('Dart', 'assets/images/dart.png'),
+              _card('Firebase', 'assets/images/firebase.png'),
+              _card('Git', 'assets/images/git.png'),
+              _card('Figma', 'assets/images/figma.png'),
+            ],
           ),
-        ),
+        )
       ],
     );
   }
+}
 
-  
-  String _getSkillName(int index) {
-    List<String> skills = ['Flutter', 'Python', 'Dart', 'Firebase', 'Git', 'Figma'];
-    return skills[index];
-  }
-
-
-  String _getSkillIcon(int index) {
-    List<String> icons = [
-      'assets/images/flutter.png',
-      'assets/images/python.png',
-      'assets/images/dart.png',
-      'assets/images/firebase.png',
-      'assets/images/git.png',
-      'assets/images/figma.png',
-    ];
-    return icons[index];
-  }
+Widget _card(String title, String imagepath) {
+  return Container(
+    height: 60,
+    width: 60, 
+    decoration: BoxDecoration(
+      color: Color(0xff1E1E1E),
+      borderRadius: BorderRadius.circular(15),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          imagepath,
+          height: 60, 
+          width: 60, 
+        ),
+        SizedBox(height: 10),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 15, 
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    ),
+  );
 }

@@ -90,7 +90,7 @@ class Homescreen extends StatelessWidget {
                  ExpertiseScreen(),
                  SizedBox(height: 100),
                  Skills(),
-                 SizedBox(height: 100),
+                 SizedBox(height: 50),
                  Projects(),
                
               ],

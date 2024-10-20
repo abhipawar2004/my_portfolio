@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Skills extends StatelessWidget {
   const Skills({super.key});
@@ -9,7 +8,7 @@ class Skills extends StatelessWidget {
     return Column(
       children: [
         // Title section
-        Text.rich(
+        const Text.rich(
           TextSpan(
             children: [
               TextSpan(
@@ -32,8 +31,8 @@ class Skills extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 20),
-        Container(
+        const SizedBox(height: 20),
+        SizedBox(
           height: 500,
           width:700,
           child: GridView.count(
@@ -61,7 +60,7 @@ Widget _card(String title, String imagepath) {
     height: 60,
     width: 60, 
     decoration: BoxDecoration(
-      color: Color(0xff1E1E1E),
+      color: const Color(0xff1E1E1E),
       borderRadius: BorderRadius.circular(15),
     ),
     child: Column(
@@ -72,10 +71,10 @@ Widget _card(String title, String imagepath) {
           height: 60, 
           width: 60, 
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15, 
             fontWeight: FontWeight.bold,
             color: Colors.white,

@@ -6,7 +6,7 @@ class Contact extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 50),
+      padding: const EdgeInsets.all(50),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -15,7 +15,7 @@ class Contact extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Get In Touch',
                   style: TextStyle(
                     color: Color(0xffFFFFFF),
@@ -23,9 +23,9 @@ class Contact extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     children: [
                       TextSpan(
                         text: "Let’s Talk For your",
@@ -40,21 +40,21 @@ class Contact extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 15),
-                Text(
+                const SizedBox(height: 15),
+                const Text(
                   'Discuss a project or just want to say hi?\nConnect with me via email or through a phone call.',
                   style: TextStyle(color: Color(0xffB1B1B1), fontSize: 13),
                 ),
               ],
             ),
           ),
-          SizedBox(width: 50),
+          const SizedBox(width: 50),
           Expanded(
             flex: 3,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   children: [
                     Expanded(
                       child: ContactFormField(hintText: "Full Name"),
@@ -65,8 +65,8 @@ class Contact extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
-                Row(
+                const SizedBox(height: 20),
+                const Row(
                   children: [
                     Expanded(
                       child: ContactFormField(hintText: "Phone Number"),
@@ -77,26 +77,26 @@ class Contact extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
-                ContactFormField(
+                const SizedBox(height: 20),
+                const ContactFormField(
                   hintText: "Message",
                   maxLines: 5,
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 SizedBox(
                   height: 50,
                   width: 250,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xffFF014F),
+                      backgroundColor: const Color(0xffFF014F),
                       padding:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                          const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
@@ -132,12 +132,12 @@ class ContactFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       maxLines: maxLines,
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey[600]),
         filled: true,
-        fillColor: Color(0xff1E1E1E),
+        fillColor: const Color(0xff1E1E1E),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,

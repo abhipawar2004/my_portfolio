@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_portfolio/screen/homescreen.dart';
 
 void main() {
-  runApp(MyPortfolio());
+  runApp(const MyPortfolio());
 }
 class MyPortfolio extends StatelessWidget {
   const MyPortfolio({super.key});
@@ -13,7 +13,7 @@ class MyPortfolio extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),),
       debugShowCheckedModeBanner: false,
-      home: Homescreen(),
+      home: const Homescreen(),
     );
   }
 }

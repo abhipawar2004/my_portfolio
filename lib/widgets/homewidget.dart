@@ -7,7 +7,7 @@ class HomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(50),
+      padding: const EdgeInsets.all(50),
       child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -18,16 +18,14 @@ class HomeWidget extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: 'HELLO, MY NAME IS',
+                      text: 'HELLO, MY NAME IS\n',
                       style: TextStyle(
                         fontSize: 20,
                         color: const Color(0xffFFFFFF).withOpacity(0.651),
                       ),
                     ),
-                    TextSpan(
-                      text: '\n',
-                    ),
-                    TextSpan(
+                   
+                    const TextSpan(
                       text: 'Abhishek ', // First name
                       style: TextStyle(
                         fontSize: 45, // Adjust size as per design
@@ -35,7 +33,7 @@ class HomeWidget extends StatelessWidget {
                         color: Color(0xffFF014F), // Color for 'Abhishek'
                       ),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: 'Pawar', // Last name
                       style: TextStyle(
                         fontSize: 45, // Same size, or you can adjust it
@@ -70,7 +68,7 @@ class HomeWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 70), 
+              const SizedBox(height: 70), 
               Row(
                 mainAxisAlignment:
                     MainAxisAlignment.start, 
@@ -92,7 +90,7 @@ class HomeWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 18),
+                  const SizedBox(width: 18),
                   InkWell(
                     onTap: () {},
                     child: Container(
@@ -112,7 +110,7 @@ class HomeWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Row(
@@ -121,17 +119,17 @@ class HomeWidget extends StatelessWidget {
                     'assets/images/a.png',
                     height: 35,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Image.asset(
                     'assets/images/2.png',
                     height: 35,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Image.asset(
                     'assets/images/3.png',
                     height: 35,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Image.asset(
                     'assets/images/4.png',
                     height: 35,
@@ -141,7 +139,7 @@ class HomeWidget extends StatelessWidget {
             ],
           ),
           Container(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             height: 500,
             child: Image.asset(
               'assets/images/my.png',

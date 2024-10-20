@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeWidget extends StatelessWidget {
   const HomeWidget({super.key});
@@ -9,10 +10,10 @@ class HomeWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(50),
       child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,   
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text.rich(
                 TextSpan(
@@ -24,7 +25,6 @@ class HomeWidget extends StatelessWidget {
                         color: const Color(0xffFFFFFF).withOpacity(0.651),
                       ),
                     ),
-                   
                     const TextSpan(
                       text: 'Abhishek ', // First name
                       style: TextStyle(
@@ -68,13 +68,21 @@ class HomeWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 70), 
+              const SizedBox(height: 70),
               Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.start, 
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      const url = 'https://drive.google.com/uc?export=download&id=1Tc8l-tjSUcLiRjK4-HovXOWPRl792WHI';
+                      // ignore: deprecated_member_use
+                      if (await canLaunch(url)) {
+                        // ignore: deprecated_member_use
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';                          
+                      }
+                    },
                     child: Container(
                       height: 48,
                       width: 200,
@@ -143,7 +151,6 @@ class HomeWidget extends StatelessWidget {
             height: 500,
             child: Image.asset(
               'assets/images/my.png',
-              
             ),
           ),
         ],

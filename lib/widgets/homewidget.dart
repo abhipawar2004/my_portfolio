@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HomeWidget extends StatelessWidget {
-  const HomeWidget({super.key});
+  
+  final GlobalKey contactKey; // Add this line to accept the key
+
+  const HomeWidget({super.key, required this.contactKey});
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +104,9 @@ class HomeWidget extends StatelessWidget {
                   ),
                   const SizedBox(width: 18),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                       Scrollable.ensureVisible(contactKey.currentContext!);
+                    },
                     child: Container(
                       height: 48,
                       width: 180,
@@ -123,24 +129,36 @@ class HomeWidget extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Image.asset(
-                    'assets/images/a.png',
-                    height: 35,
+                  InkWell(
+                    onTap: () => launchUrlString('https://github.com/abhipawar2004'),
+                    child: Image.asset(
+                      'assets/images/a.png',
+                      height: 35,
+                    ),
                   ),
                   const SizedBox(width: 10),
-                  Image.asset(
-                    'assets/images/2.png',
-                    height: 35,
+                  InkWell(
+                    onTap: () => launchUrlString('https://www.linkedin.com/in/abhishek-pawar10'),
+                    child: Image.asset(
+                      'assets/images/2.png',
+                      height: 35,
+                    ),
                   ),
                   const SizedBox(width: 10),
-                  Image.asset(
-                    'assets/images/3.png',
-                    height: 35,
+                  InkWell(
+                     onTap: () => launchUrlString('mailto:pawarabhi2004@gmail.com'),
+                    child: Image.asset(
+                      'assets/images/3.png',
+                      height: 35,
+                    ),
                   ),
                   const SizedBox(width: 10),
-                  Image.asset(
-                    'assets/images/4.png',
-                    height: 35,
+                  InkWell(
+                    onTap: () => launchUrlString('https://twitter.com/'),
+                    child: Image.asset(
+                      'assets/images/4.png',
+                      height: 35,
+                    ),
                   ),
                 ],
               ),

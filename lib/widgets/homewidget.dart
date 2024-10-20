@@ -154,7 +154,7 @@ class HomeWidget extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   InkWell(
-                    onTap: () => launchUrlString('https://twitter.com/'),
+                    onTap: () => launchUrlString('https://twitter.com/@pawarabhi2004'),
                     child: Image.asset(
                       'assets/images/4.png',
                       height: 35,

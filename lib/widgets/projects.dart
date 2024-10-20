@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Projects extends StatelessWidget {
   const Projects({super.key});
-
+    
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,7 +49,7 @@ class Projects extends StatelessWidget {
                     ),
                     Text(
                       'BillWiz',
-                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 34),
+                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 32),
                     ),
                     SizedBox(
                       height: 20,
@@ -91,7 +91,7 @@ class Projects extends StatelessWidget {
                     ),
                     Text(
                       'Shopping App',
-                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 34),
+                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 32),
                     ),
                      SizedBox(
                       height: 20,
@@ -147,7 +147,7 @@ class Projects extends StatelessWidget {
                     ),
                     Text(
                       'MealMate',
-                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 34),
+                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 32       ),
                     ),
                     SizedBox(
                       height: 20,

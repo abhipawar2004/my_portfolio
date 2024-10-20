@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_portfolio/widgets/contact.dart';
 import 'package:my_portfolio/widgets/expertise.dart';
 import 'package:my_portfolio/widgets/homewidget.dart';
 import 'package:my_portfolio/widgets/projects.dart';
@@ -81,18 +82,19 @@ class Homescreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.all(45),
+          margin: EdgeInsets.only(left: 40,right: 40),
           child: SingleChildScrollView(
             child: Column(
               children: [
                  HomeWidget(),
-                 SizedBox(height: 100),
+                 SizedBox(height: 50),
                  ExpertiseScreen(),
                  SizedBox(height: 100),
                  Skills(),
                  SizedBox(height: 50),
                  Projects(),
-               
+                SizedBox(height: 50),
+                Contact(),
               ],
             ),
           ),

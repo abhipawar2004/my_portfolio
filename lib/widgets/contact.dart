@@ -52,6 +52,7 @@ class Contact extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -82,23 +83,29 @@ class Contact extends StatelessWidget {
                   maxLines: 5,
                 ),
                 SizedBox(height: 30),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xffFF014F),
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Send Message',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                SizedBox(
+                  height: 50,
+                  width: 250,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xffFF014F),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      Icon(Icons.send, color: Colors.white),
-                    ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          'Send Message',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                        Icon(Icons.send, color: Colors.white),
+                      ],
+                    ),
                   ),
                 ),
               ],

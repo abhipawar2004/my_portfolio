@@ -122,6 +122,56 @@ class Projects extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(height: 100),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 280,
+                width: 380,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xff1E1E1E)),
+              ),
+              SizedBox(width: 50),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Mobile Application',
+                      style: TextStyle(color: Color(0xffFF014F), fontSize: 13),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'MealMate',
+                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 34),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Features include a favorite section, filtering options for dietary preferences like gluten-free, lactose-free, vegan, and vegetarian recipes, as well as displaying meal duration, complexity, expenses, ingredients, and steps.',
+                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 13),
+                    ),
+                    SizedBox(height: 50),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xff1E1E1E),
+                          borderRadius: BorderRadius.circular(60)),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon:
+                            Icon(Icons.arrow_outward, color: Color(0xffFFFFFF)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

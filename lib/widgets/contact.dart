@@ -30,7 +30,7 @@ class _ContactState extends State<Contact> {
     if (name.isEmpty || email.isEmpty || phone.isEmpty || subject.isEmpty || message.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('All fields are required!'),
+          content: Center(child: Text('All fields are required!')),
           backgroundColor: Colors.red,
         ),
       );
@@ -94,7 +94,7 @@ class _ContactState extends State<Contact> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to send message: ${response.body}'),
+          content: Center(child: Text('Failed to send message: ${response.body}')),
           backgroundColor: Colors.red,
         ),
       );
@@ -288,9 +288,11 @@ class _ContactState extends State<Contact> {
                 AnimatedOpacity(
                   opacity: opacity,
                   duration: const Duration(seconds: 1),
-                  child: const Text(
-                    'Message sent successfully!',
-                    style: TextStyle(color: Colors.green, fontSize: 16),
+                  child: const Center(
+                    child: Text(
+                      'Message sent successfully!',
+                      style: TextStyle(color: Colors.green, fontSize: 16),
+                    ),
                   ),
                 ),
               ],

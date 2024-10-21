@@ -7,7 +7,7 @@ class ExpertiseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(50),
+      margin: const EdgeInsets.only(left: 50,right: 50,top: 20),
       child: Column(
         children: [
           const Text.rich(

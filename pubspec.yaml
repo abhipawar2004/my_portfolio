@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_fonts: ^6.2.1
   url_launcher: ^6.3.1
+  emailjs: ^4.0.0
 
 dev_dependencies:
   flutter_test:

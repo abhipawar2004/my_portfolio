@@ -77,7 +77,10 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
     }
   }
 
-  void _scrollToSection(GlobalKey key) {
+  void _scrollToSection(GlobalKey key, String section) {
+    // Immediately update the selected section when scrolling
+    _updateSelectedSection(section);
+    
     Scrollable.ensureVisible(key.currentContext!,
         duration: const Duration(milliseconds: 800), curve: Curves.easeInOut);
   }
@@ -109,15 +112,15 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
           margin: const EdgeInsets.only(left: 40, right: 40),
           child: Column(
             children: [
-              _buildAnimatedSection(HomeWidget(key: _homeKey, contactKey: _contactKey)),
+              _buildSection(HomeWidget(key: _homeKey, contactKey: _contactKey)),
               const SizedBox(height: 30),
-              _buildAnimatedSection(ExpertiseScreen(key: _expertiseKey)),
+              _buildSection(ExpertiseScreen(key: _expertiseKey)),
               const SizedBox(height: 100),
-              _buildAnimatedSection(Skills(key: _skillsKey)),
+              _buildSection(Skills(key: _skillsKey)),
               const SizedBox(height: 50),
-              _buildAnimatedSection(Projects(key: _projectsKey)),
+              _buildSection(Projects(key: _projectsKey)),
               const SizedBox(height: 50),
-              _buildAnimatedSection(Contact(key: _contactKey)),
+              _buildSection(Contact(key: _contactKey)),
             ],
           ),
         ),
@@ -125,39 +128,54 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
     );
   }
 
-  // Method to build AppBar items with animated color changes
+  // Method to build AppBar items with scaling animation and no splash effect
   Widget _buildAppBarItem(String title, GlobalKey sectionKey) {
-    return InkWell(
-      onTap: () => _scrollToSection(sectionKey),
-      child: AnimatedDefaultTextStyle(
-        duration: const Duration(milliseconds: 300),
-        style: GoogleFonts.inter(
-          textStyle: TextStyle(
-            fontSize: 20,
-            color: _selectedSection == title ? const Color(0xffFF014F) : const Color(0xffFFFFFF),
+    // Use a ValueNotifier to track the scale factor
+    final ValueNotifier<double> scaleFactor = ValueNotifier(1.0);
+
+    // Update scale factor when the section is selected
+    if (_selectedSection == title) {
+      scaleFactor.value = 1.2; // Scale up when selected
+    } else {
+      scaleFactor.value = 1.0; // Normal size
+    }
+
+    return ValueListenableBuilder<double>(
+      valueListenable: scaleFactor,
+      builder: (context, scale, child) {
+        return Transform.scale(
+          scale: scale,
+          child: Material(
+            color: Colors.transparent, // Set background color to transparent
+            child: InkWell(
+              onTap: () {
+                _scrollToSection(sectionKey, title);
+                // Trigger a rebuild for the selected section
+                scaleFactor.value = 1.2; // Scale up
+                Future.delayed(Duration(milliseconds: 200), () {
+                  scaleFactor.value = 1.0; // Scale back down after a delay
+                });
+              },
+              splashColor: Colors.transparent, // Disable splash color
+              highlightColor: Colors.transparent, // Disable highlight color
+              child: Text(
+                title,
+                style: GoogleFonts.inter(
+                  textStyle: TextStyle(
+                    fontSize: 20,
+                    color: _selectedSection == title ? const Color(0xffFF014F) : const Color(0xffFFFFFF),
+                  ),
+                ),
+              ),
+            ),
           ),
-        ),
-        child: Text(title),
-      ),
+        );
+      },
     );
   }
 
-  // Method to wrap each section in an AnimatedOpacity widget for fade-in effect
-  Widget _buildAnimatedSection(Widget section) {
-    return AnimatedOpacity(
-      duration: const Duration(milliseconds: 500),
-      opacity: _selectedSection == _getSectionTitle(section) ? 1.0 : 0.5,
-      child: section,
-    );
-  }
-
-  // Helper method to get the section's title (for opacity effect)
-  String _getSectionTitle(Widget section) {
-    if (section.key == _homeKey) return 'Home';
-    if (section.key == _expertiseKey) return 'Services';
-    if (section.key == _skillsKey) return 'Skills';
-    if (section.key == _projectsKey) return 'Projects';
-    if (section.key == _contactKey) return 'Contact';
-    return '';
+  // Method to wrap each section without animation
+  Widget _buildSection(Widget section) {
+    return section; // Simply return the section without opacity
   }
 }

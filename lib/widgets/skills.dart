@@ -23,8 +23,11 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
       vsync: this,
     );
 
-    // Tween to rotate twice (4π radians = 2 full rotations)
-    _animation = Tween<double>(begin: 0, end: 2 * pi).animate(_controller);
+    // Create a TweenSequence for a forward and backward flip
+    _animation = TweenSequence([
+      TweenSequenceItem(tween: Tween<double>(begin: 0, end: pi), weight: 50), // Forward flip
+      TweenSequenceItem(tween: Tween<double>(begin: pi, end: 0), weight: 50),  // Backward flip
+    ]).animate(_controller);
   }
 
   @override
@@ -76,7 +79,7 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
                     setState(() {
                       selectedCardIndex = index;
                       _controller.reset();
-                      _controller.forward(); // Start the animation
+                      _controller.forward(); // Start the flip animation
                     });
                   },
                   child: AnimatedBuilder(
@@ -85,7 +88,7 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
                       return _card(
                         ['Flutter', 'Python', 'Dart', 'Firebase', 'Git', 'Figma'][index],
                         ['assets/images/flutter.png', 'assets/images/python.png', 'assets/images/dart.png', 'assets/images/firebase.png', 'assets/images/git.png', 'assets/images/figma.png'][index],
-                        index == selectedCardIndex ? _animation.value : 0, // Apply rotation only to selected card
+                        index == selectedCardIndex ? _animation.value : 0, // Apply flip to selected card
                       );
                     },
                   ),
@@ -99,9 +102,10 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
   }
 
   Widget _card(String title, String imagepath, double rotation) {
+    // Flip effect using rotationY for 3D flip animation
     return Transform(
-      transform: Matrix4.rotationZ(rotation), // Apply the rotation transformation
-      alignment: Alignment.center, // Rotate around the center
+      transform: Matrix4.rotationY(rotation),
+      alignment: Alignment.center,
       child: Container(
         height: 40,
         width: 40,

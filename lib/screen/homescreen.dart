@@ -82,7 +82,7 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
     _updateSelectedSection(section);
     
     Scrollable.ensureVisible(key.currentContext!,
-        duration: const Duration(milliseconds: 800), curve: Curves.easeInOut);
+        duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
   }
 
   @override
@@ -152,7 +152,7 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
                 _scrollToSection(sectionKey, title);
                 // Trigger a rebuild for the selected section
                 scaleFactor.value = 1.2; // Scale up
-                Future.delayed(Duration(milliseconds: 200), () {
+                Future.delayed(Duration(milliseconds: 100), () {
                   scaleFactor.value = 1.0; // Scale back down after a delay
                 });
               },

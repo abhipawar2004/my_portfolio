@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Projects extends StatelessWidget {
   const Projects({super.key});
-    
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,8 +32,10 @@ class Projects extends StatelessWidget {
                 height: 280,
                 width: 380,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xff1E1E1E)),
+                  borderRadius: BorderRadius.circular(10),
+                  
+                ),
+                child: Image.asset('assets/images/BillWiz.png'),
               ),
               const SizedBox(width: 50),
               Expanded(
@@ -65,8 +67,8 @@ class Projects extends StatelessWidget {
                           borderRadius: BorderRadius.circular(60)),
                       child: IconButton(
                         onPressed: () {},
-                        icon:
-                            const Icon(Icons.arrow_outward, color: Color(0xffFFFFFF)),
+                        icon: const Icon(Icons.arrow_outward,
+                            color: Color(0xffFFFFFF)),
                       ),
                     ),
                   ],
@@ -86,14 +88,14 @@ class Projects extends StatelessWidget {
                       'Mobile Application',
                       style: TextStyle(color: Color(0xffFF014F), fontSize: 13),
                     ),
-                     const SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     const Text(
                       'Shopping App',
                       style: TextStyle(color: Color(0xffFFFFFF), fontSize: 32),
                     ),
-                     const SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     const Text(
@@ -102,23 +104,28 @@ class Projects extends StatelessWidget {
                     ),
                     const SizedBox(height: 50),
                     Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(60),
-                      color: const Color(0xff1E1E1E),),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(60),
+                        color: const Color(0xff1E1E1E),
+                      ),
                       child: IconButton(
                         onPressed: () {},
-                        icon: const Icon(Icons.arrow_outward, color: Color(0xffFFFFFF)),
+                        icon: const Icon(Icons.arrow_outward,
+                            color: Color(0xffFFFFFF)),
                       ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(width: 50),
-               Container(
+             Container(
                 height: 280,
                 width: 380,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xff1E1E1E)),
+                  borderRadius: BorderRadius.circular(10),
+                  
+                ),
+                child: Image.asset('assets/images/Shop.png'),
               ),
             ],
           ),
@@ -130,8 +137,10 @@ class Projects extends StatelessWidget {
                 height: 280,
                 width: 380,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xff1E1E1E)),
+                  borderRadius: BorderRadius.circular(10),
+                  
+                ),
+                child: Image.asset('assets/images/Meal.png'),
               ),
               const SizedBox(width: 50),
               Expanded(
@@ -147,7 +156,7 @@ class Projects extends StatelessWidget {
                     ),
                     const Text(
                       'MealMate',
-                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 32       ),
+                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 32),
                     ),
                     const SizedBox(
                       height: 20,
@@ -163,8 +172,8 @@ class Projects extends StatelessWidget {
                           borderRadius: BorderRadius.circular(60)),
                       child: IconButton(
                         onPressed: () {},
-                        icon:
-                            const Icon(Icons.arrow_outward, color: Color(0xffFFFFFF)),
+                        icon: const Icon(Icons.arrow_outward,
+                            color: Color(0xffFFFFFF)),
                       ),
                     ),
                   ],

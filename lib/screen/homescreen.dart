@@ -13,17 +13,16 @@ class Homescreen extends StatefulWidget {
   _HomescreenState createState() => _HomescreenState();
 }
 
-class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateMixin {
+class _HomescreenState extends State<Homescreen>
+    with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
 
-  // Define keys for each section
   final GlobalKey _homeKey = GlobalKey();
   final GlobalKey _expertiseKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
   final GlobalKey _projectsKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
 
-  // Keep track of the current selected section
   String _selectedSection = 'Home';
 
   @override
@@ -39,17 +38,14 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
   }
 
   void _onScroll() {
-    // Get the positions of each section
     final homePosition = _getPosition(_homeKey);
     final expertisePosition = _getPosition(_expertiseKey);
     final skillsPosition = _getPosition(_skillsKey);
     final projectsPosition = _getPosition(_projectsKey);
     final contactPosition = _getPosition(_contactKey);
 
-    // Get the current scroll offset
     final currentScroll = _scrollController.offset;
 
-    // Determine which section is in view based on the scroll position
     if (currentScroll >= contactPosition - 100) {
       _updateSelectedSection('Contact');
     } else if (currentScroll >= projectsPosition - 100) {
@@ -63,9 +59,9 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
     }
   }
 
-  // Helper function to get the position of each section
   double _getPosition(GlobalKey key) {
-    final RenderBox renderBox = key.currentContext?.findRenderObject() as RenderBox;
+    final RenderBox renderBox =
+        key.currentContext?.findRenderObject() as RenderBox;
     return renderBox.localToGlobal(Offset.zero).dy + _scrollController.offset;
   }
 
@@ -78,9 +74,7 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
   }
 
   void _scrollToSection(GlobalKey key, String section) {
-    // Immediately update the selected section when scrolling
     _updateSelectedSection(section);
-    
     Scrollable.ensureVisible(key.currentContext!,
         duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
   }
@@ -92,52 +86,58 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
       appBar: AppBar(
         backgroundColor: const Color(0xff131313),
         actions: [
-          const Spacer(flex: 5),
+          const Spacer(flex: 3),
           _buildAppBarItem('Home', _homeKey),
-          const Spacer(flex: 1),
+          if (MediaQuery.of(context).size.width > 500)
+            const Spacer(flex: 1), // Only use spacer if there's enough width
           _buildAppBarItem('Services', _expertiseKey),
-          const Spacer(flex: 1),
+          if (MediaQuery.of(context).size.width > 500) const Spacer(flex: 1),
           _buildAppBarItem('Skills', _skillsKey),
-          const Spacer(flex: 1),
+          if (MediaQuery.of(context).size.width > 500) const Spacer(flex: 1),
           _buildAppBarItem('Projects', _projectsKey),
-          const Spacer(flex: 1),
+          if (MediaQuery.of(context).size.width > 500) const Spacer(flex: 1),
           _buildAppBarItem('Contact', _contactKey),
           const Spacer(flex: 1),
         ],
       ),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        physics: const ClampingScrollPhysics(),
-        child: Container(
-          margin: const EdgeInsets.only(left: 40, right: 40),
-          child: Column(
-            children: [
-              _buildSection(HomeWidget(key: _homeKey, contactKey: _contactKey)),
-              const SizedBox(height: 30),
-              _buildSection(ExpertiseScreen(key: _expertiseKey)),
-              const SizedBox(height: 100),
-              _buildSection(Skills(key: _skillsKey)),
-              const SizedBox(height: 50),
-              _buildSection(Projects(key: _projectsKey)),
-              const SizedBox(height: 50),
-              _buildSection(Contact(key: _contactKey)),
-            ],
-          ),
-        ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          double marginHorizontal = constraints.maxWidth > 600 ? 40 : 20;
+          double sectionSpacing = constraints.maxWidth > 600 ? 100 : 50;
+
+          return SingleChildScrollView(
+            controller: _scrollController,
+            physics: const ClampingScrollPhysics(),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: marginHorizontal),
+              child: Column(
+                children: [
+                  _buildSection(
+                      HomeWidget(key: _homeKey, contactKey: _contactKey)),
+                  SizedBox(height: sectionSpacing / 2),
+                  _buildSection(ExpertiseScreen(key: _expertiseKey)),
+                  SizedBox(height: sectionSpacing),
+                  _buildSection(Skills(key: _skillsKey)),
+                  SizedBox(height: sectionSpacing / 2),
+                  _buildSection(Projects(key: _projectsKey)),
+                  SizedBox(height: sectionSpacing / 2),
+                  _buildSection(Contact(key: _contactKey)),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  // Method to build AppBar items with scaling animation and no splash effect
   Widget _buildAppBarItem(String title, GlobalKey sectionKey) {
-    // Use a ValueNotifier to track the scale factor
     final ValueNotifier<double> scaleFactor = ValueNotifier(1.0);
 
-    // Update scale factor when the section is selected
     if (_selectedSection == title) {
-      scaleFactor.value = 1.2; // Scale up when selected
+      scaleFactor.value = 1.2;
     } else {
-      scaleFactor.value = 1.0; // Normal size
+      scaleFactor.value = 1.0;
     }
 
     return ValueListenableBuilder<double>(
@@ -146,24 +146,25 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
         return Transform.scale(
           scale: scale,
           child: Material(
-            color: Colors.transparent, // Set background color to transparent
+            color: Colors.transparent,
             child: InkWell(
               onTap: () {
                 _scrollToSection(sectionKey, title);
-                // Trigger a rebuild for the selected section
-                scaleFactor.value = 1.2; // Scale up
-                Future.delayed(Duration(milliseconds: 100), () {
-                  scaleFactor.value = 1.0; // Scale back down after a delay
+                scaleFactor.value = 1.2;
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  scaleFactor.value = 1.0;
                 });
               },
-              splashColor: Colors.transparent, // Disable splash color
-              highlightColor: Colors.transparent, // Disable highlight color
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               child: Text(
                 title,
                 style: GoogleFonts.inter(
                   textStyle: TextStyle(
-                    fontSize: 20,
-                    color: _selectedSection == title ? const Color(0xffFF014F) : const Color(0xffFFFFFF),
+                    fontSize: 18,
+                    color: _selectedSection == title
+                        ? const Color(0xffFF014F)
+                        : const Color(0xffFFFFFF),
                   ),
                 ),
               ),
@@ -174,8 +175,7 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
     );
   }
 
-  // Method to wrap each section without animation
   Widget _buildSection(Widget section) {
-    return section; // Simply return the section without opacity
+    return section;
   }
 }

@@ -25,164 +25,185 @@ class Projects extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 50),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 280,
-                width: 380,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  
-                ),
-                child: Image.asset('assets/images/BillWiz.png'),
-              ),
-              const SizedBox(width: 50),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Mobile Application',
-                      style: TextStyle(color: Color(0xffFF014F), fontSize: 13),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      'BillWiz',
-                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 32),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      'This app lets users browse a restaurant menu, add items to their cart, and choose full or half portions. Users can adjust quantities, edit, or remove items with ease, providing a smooth and intuitive ordering experience.',
-                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 13),
-                    ),
-                    const SizedBox(height: 50),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xff1E1E1E),
-                          borderRadius: BorderRadius.circular(60)),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.arrow_outward,
-                            color: Color(0xffFFFFFF)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          ProjectRow(
+            title: 'BillWiz',
+            description:
+                'This app lets users browse a restaurant menu, add items to their cart, and choose full or half portions. Users can adjust quantities, edit, or remove items with ease, providing a smooth and intuitive ordering experience.',
+            imagePath: 'assets/images/BillWiz.png',
           ),
           const SizedBox(height: 100),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Mobile Application',
-                      style: TextStyle(color: Color(0xffFF014F), fontSize: 13),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      'Shopping App',
-                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 32),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      'Integrated features include user authentication, cart management, order tracking, and secure payment options, reducing login time by 20%.',
-                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 13),
-                    ),
-                    const SizedBox(height: 50),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(60),
-                        color: const Color(0xff1E1E1E),
-                      ),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.arrow_outward,
-                            color: Color(0xffFFFFFF)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 50),
-             Container(
-                height: 280,
-                width: 380,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  
-                ),
-                child: Image.asset('assets/images/Shop.png'),
-              ),
-            ],
+          ProjectRow(
+            title: 'Shopping App',
+            description:
+                'Integrated features include user authentication, cart management, order tracking, and secure payment options, reducing login time by 20%.',
+            imagePath: 'assets/images/Shop.png',
+            reverseLayout: true,
           ),
           const SizedBox(height: 100),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 280,
-                width: 380,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  
-                ),
-                child: Image.asset('assets/images/Meal.png'),
-              ),
-              const SizedBox(width: 50),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Mobile Application',
-                      style: TextStyle(color: Color(0xffFF014F), fontSize: 13),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      'MealMate',
-                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 32),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      'Features include a favorite section, filtering options for dietary preferences like gluten-free, lactose-free, vegan, and vegetarian recipes, as well as displaying meal duration, complexity, expenses, ingredients, and steps.',
-                      style: TextStyle(color: Color(0xffFFFFFF), fontSize: 13),
-                    ),
-                    const SizedBox(height: 50),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xff1E1E1E),
-                          borderRadius: BorderRadius.circular(60)),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.arrow_outward,
-                            color: Color(0xffFFFFFF)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          ProjectRow(
+            title: 'MealMate',
+            description:
+                'Features include a favorite section, filtering options for dietary preferences like gluten-free, lactose-free, vegan, and vegetarian recipes, as well as displaying meal duration, complexity, expenses, ingredients, and steps.',
+            imagePath: 'assets/images/Meal.png',
           ),
         ],
       ),
+    );
+  }
+}
+
+class ProjectRow extends StatefulWidget {
+  final String title;
+  final String description;
+  final String imagePath;
+  final bool reverseLayout;
+
+  const ProjectRow({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.imagePath,
+    this.reverseLayout = false,
+  });
+
+  @override
+  _ProjectRowState createState() => _ProjectRowState();
+}
+
+class _ProjectRowState extends State<ProjectRow> with SingleTickerProviderStateMixin {
+  bool isHovered = false;
+  late AnimationController _controller;
+  late Animation<Offset> _slideAnimation;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _rotationAnimation; // New rotation animation
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 400),
+      vsync: this,
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(-1.0, 0.0),
+      end: const Offset(1.0, 0.0),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 0.3).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+
+    _rotationAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    )); // New rotation animation
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onHover(bool hover) {
+    setState(() {
+      isHovered = hover;
+    });
+    if (hover) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final imageWidget = MouseRegion(
+      onEnter: (_) => _onHover(true),
+      onExit: (_) => _onHover(false),
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        child: RotationTransition(
+          turns: _rotationAnimation, // Apply rotation animation
+          child: Stack(
+            children: [
+              Container(
+                height: 280,
+                width: 380,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Image.asset(widget.imagePath, fit: BoxFit.cover),
+              ),
+              SlideTransition(
+                position: _slideAnimation,
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: Container(
+                    height: 280,
+                    width: 380,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    final textWidget = Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Mobile Application',
+            style: TextStyle(color: Color(0xffFF014F), fontSize: 13),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            widget.title,
+            style: const TextStyle(color: Color(0xffFFFFFF), fontSize: 32),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            widget.description,
+            style: const TextStyle(color: Color(0xffFFFFFF), fontSize: 13),
+          ),
+          const SizedBox(height: 50),
+          Container(
+            decoration: BoxDecoration(
+              color: const Color(0xff1E1E1E),
+              borderRadius: BorderRadius.circular(60),
+            ),
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.arrow_outward, color: Color(0xffFFFFFF)),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: widget.reverseLayout
+          ? [textWidget, const SizedBox(width: 50), imageWidget]
+          : [imageWidget, const SizedBox(width: 50), textWidget],
     );
   }
 }

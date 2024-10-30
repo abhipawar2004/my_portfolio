@@ -7,9 +7,9 @@ class Projects extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 50),
-      child: Column(
+      child: const Column(
         children: [
-          const Text.rich(
+          Text.rich(
             textAlign: TextAlign.center,
             TextSpan(
               children: [
@@ -24,14 +24,14 @@ class Projects extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 50),
+          SizedBox(height: 50),
           ProjectRow(
             title: 'BillWiz',
             description:
                 'This app lets users browse a restaurant menu, add items to their cart, and choose full or half portions. Users can adjust quantities, edit, or remove items with ease, providing a smooth and intuitive ordering experience.',
             imagePath: 'assets/images/BillWiz.png',
           ),
-          const SizedBox(height: 100),
+          SizedBox(height: 100),
           ProjectRow(
             title: 'Shopping App',
             description:
@@ -39,7 +39,7 @@ class Projects extends StatelessWidget {
             imagePath: 'assets/images/Shop.png',
             reverseLayout: true,
           ),
-          const SizedBox(height: 100),
+          SizedBox(height: 100),
           ProjectRow(
             title: 'MealMate',
             description:
@@ -71,43 +71,32 @@ class ProjectRow extends StatefulWidget {
 }
 
 class _ProjectRowState extends State<ProjectRow> with SingleTickerProviderStateMixin {
-  bool isHovered = false;
   late AnimationController _controller;
-  late Animation<Offset> _slideAnimation;
-  late Animation<double> _fadeAnimation;
+  late Animation<Color?> _colorAnimation;
   late Animation<double> _scaleAnimation;
-  late Animation<double> _rotationAnimation; // New rotation animation
+  bool isHovered = false;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(-1.0, 0.0),
-      end: const Offset(1.0, 0.0),
+    // Color Tween Animation
+    _colorAnimation = ColorTween(
+      begin: Colors.transparent,
+      end: Colors.black.withOpacity(0.4),
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
     ));
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 0.3).animate(CurvedAnimation(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.02).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
     ));
-
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
-
-    _rotationAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    )); // New rotation animation
   }
 
   @override
@@ -117,9 +106,7 @@ class _ProjectRowState extends State<ProjectRow> with SingleTickerProviderStateM
   }
 
   void _onHover(bool hover) {
-    setState(() {
-      isHovered = hover;
-    });
+    setState(() => isHovered = hover);
     if (hover) {
       _controller.forward();
     } else {
@@ -134,34 +121,31 @@ class _ProjectRowState extends State<ProjectRow> with SingleTickerProviderStateM
       onExit: (_) => _onHover(false),
       child: ScaleTransition(
         scale: _scaleAnimation,
-        child: RotationTransition(
-          turns: _rotationAnimation, // Apply rotation animation
-          child: Stack(
-            children: [
-              Container(
+        child: Stack(
+          children: [
+            Container(
+              height: 280,
+              width: 380,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(widget.imagePath, fit: BoxFit.cover),
+              ),
+            ),
+            AnimatedBuilder(
+              animation: _colorAnimation,
+              builder: (context, child) => Container(
                 height: 280,
                 width: 380,
                 decoration: BoxDecoration(
+                  color: _colorAnimation.value,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Image.asset(widget.imagePath, fit: BoxFit.cover),
               ),
-              SlideTransition(
-                position: _slideAnimation,
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Container(
-                    height: 280,
-                    width: 380,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

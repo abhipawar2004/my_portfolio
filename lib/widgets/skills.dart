@@ -25,8 +25,10 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
 
     // Create a TweenSequence for a forward and backward flip
     _animation = TweenSequence([
-      TweenSequenceItem(tween: Tween<double>(begin: 0, end: pi), weight: 50), // Forward flip
-      TweenSequenceItem(tween: Tween<double>(begin: pi, end: 0), weight: 50),  // Backward flip
+      TweenSequenceItem(
+          tween: Tween<double>(begin: 0, end: pi), weight: 50), // Forward flip
+      TweenSequenceItem(
+          tween: Tween<double>(begin: pi, end: 0), weight: 50), // Backward flip
     ]).animate(_controller);
   }
 
@@ -38,27 +40,40 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    bool isMobile = screenWidth < 768;
+    double margin = isMobile ? 16 : 50;
+    int crossAxisCount = isMobile ? 2 : 3;
+    double gridWidth = isMobile ? screenWidth - 64 : 600;
+    double gridHeight = isMobile ? 400 : 500;
+    double crossAxisSpacing = isMobile ? 20 : 40;
+    double mainAxisSpacing = isMobile ? 20 : 40;
+
     return Container(
-      margin: const EdgeInsets.only(left: 50, right: 50, top: 20),
+      margin: EdgeInsets.only(left: margin, right: margin, top: 20),
       child: Column(
         children: [
-          const Text.rich(
+          Text.rich(
             TextSpan(
               children: [
                 TextSpan(
                   text: 'My ',
-                  style: TextStyle(color: Color(0xffFFFFFF), fontSize: 16),
+                  style: TextStyle(
+                      color: const Color(0xffFFFFFF),
+                      fontSize: isMobile ? 14 : 16),
                 ),
                 TextSpan(
                   text: 'Talent\n',
-                  style: TextStyle(color: Color(0xffFF014F), fontSize: 16),
+                  style: TextStyle(
+                      color: const Color(0xffFF014F),
+                      fontSize: isMobile ? 14 : 16),
                 ),
                 TextSpan(
                   text: 'Professional Skills',
                   style: TextStyle(
-                    color: Color(0xffFFFFFF),
+                    color: const Color(0xffFFFFFF),
                     fontWeight: FontWeight.bold,
-                    fontSize: 34,
+                    fontSize: isMobile ? 28 : 34,
                   ),
                 ),
               ],
@@ -67,12 +82,12 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
           ),
           const SizedBox(height: 20),
           SizedBox(
-            height: 500,
-            width: 600,
+            height: gridHeight,
+            width: gridWidth,
             child: GridView.count(
-              crossAxisCount: 3,
-              crossAxisSpacing: 40,
-              mainAxisSpacing: 40,
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: crossAxisSpacing,
+              mainAxisSpacing: mainAxisSpacing,
               children: List.generate(6, (index) {
                 return GestureDetector(
                   onTap: () {
@@ -86,9 +101,26 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
                     animation: _controller,
                     builder: (context, child) {
                       return _card(
-                        ['Flutter', 'Python', 'Dart', 'Firebase', 'Git', 'Figma'][index],
-                        ['assets/images/flutter.png', 'assets/images/python.png', 'assets/images/dart.png', 'assets/images/firebase.png', 'assets/images/git.png', 'assets/images/figma.png'][index],
-                        index == selectedCardIndex ? _animation.value : 0, // Apply flip to selected card
+                        [
+                          'Flutter',
+                          'Python',
+                          'Dart',
+                          'Firebase',
+                          'Git',
+                          'Figma'
+                        ][index],
+                        [
+                          'assets/images/flutter.png',
+                          'assets/images/python.png',
+                          'assets/images/dart.png',
+                          'assets/images/firebase.png',
+                          'assets/images/git.png',
+                          'assets/images/figma.png'
+                        ][index],
+                        index == selectedCardIndex
+                            ? _animation.value
+                            : 0, // Apply flip to selected card
+                        isMobile,
                       );
                     },
                   ),
@@ -101,14 +133,15 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _card(String title, String imagepath, double rotation) {
+  Widget _card(String title, String imagepath, double rotation, bool isMobile) {
+    double imageSize = isMobile ? 40 : 60;
+    double fontSize = isMobile ? 12 : 15;
+
     // Flip effect using rotationY for 3D flip animation
     return Transform(
       transform: Matrix4.rotationY(rotation),
       alignment: Alignment.center,
       child: Container(
-        height: 40,
-        width: 40,
         decoration: BoxDecoration(
           color: const Color(0xff1E1E1E),
           borderRadius: BorderRadius.circular(15),
@@ -118,14 +151,14 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
           children: [
             Image.asset(
               imagepath,
-              height: 60,
-              width: 60,
+              height: imageSize,
+              width: imageSize,
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: isMobile ? 8 : 10),
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 15,
+              style: TextStyle(
+                fontSize: fontSize,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),

@@ -6,100 +6,134 @@ class ExpertiseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    bool isMobile = screenWidth < 768;
+    double margin = isMobile ? 16 : 50;
+    double cardWidth = isMobile ? screenWidth - 64 : 300;
+    double cardHeight = isMobile ? 280 : 300;
+
     return Container(
-      margin: const EdgeInsets.only(left: 50,right: 50,top: 20),
+      margin: EdgeInsets.only(left: margin, right: margin, top: 20),
       child: Column(
         children: [
-          const Text.rich(
+          Text.rich(
             TextSpan(
               children: [
                 TextSpan(
                   text: 'I like to make things easy and fun\n\n',
-                  style: TextStyle(color: Color(0xffFFFFFF), fontSize: 16),
+                  style: TextStyle(
+                      color: const Color(0xffFFFFFF),
+                      fontSize: isMobile ? 14 : 16),
                 ),
                 TextSpan(
                   text: 'My ',
-                  style: TextStyle(color: Color(0xffFFFFFF), fontSize: 34),
+                  style: TextStyle(
+                      color: const Color(0xffFFFFFF),
+                      fontSize: isMobile ? 28 : 34),
                 ),
                 TextSpan(
                   text: 'Special Services ',
-                  style: TextStyle(color: Color(0xffFF014F), fontSize: 34),
+                  style: TextStyle(
+                      color: const Color(0xffFF014F),
+                      fontSize: isMobile ? 28 : 34),
                 ),
                 TextSpan(
                   text: 'for your\n' 'Business ',
-                  style: TextStyle(color: Color(0xffFFFFFF), fontSize: 34),
+                  style: TextStyle(
+                      color: const Color(0xffFFFFFF),
+                      fontSize: isMobile ? 28 : 34),
                 ),
                 TextSpan(
                   text: 'Development\n\n',
-                  style: TextStyle(color: Color(0xffFF014F), fontSize: 34),
+                  style: TextStyle(
+                      color: const Color(0xffFF014F),
+                      fontSize: isMobile ? 28 : 34),
                 ),
               ],
             ),
             textAlign: TextAlign.center,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(20),
-                height: 300,
-                width: 300,
-                decoration: const BoxDecoration(
-                  color: Color(0xff1E1E1E),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(15),
-                  ),
+          if (isMobile) ...[
+            // Mobile layout - vertical stack
+            Column(
+              children: [
+                _buildServiceCard(
+                  'assets/images/Phone.png',
+                  'APP DEVELOPMENT',
+                  'Modern and mobile-ready application that will help you reach all of your marketing.',
+                  cardWidth,
+                  cardHeight,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.asset(
-                      'assets/images/Phone.png',
-                      height:50,
-                    ),
-      
-                    Text('APP DEVELOPMENT',style: GoogleFonts.poppins(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22
-                    ),),
-                    const Text('Modern and mobile-ready application that will help you reach all of your marketing.',
-                    style:TextStyle(color: Colors.white),textAlign: TextAlign.center),
-                  ],
+                const SizedBox(height: 20),
+                _buildServiceCard(
+                  'assets/images/Design.png',
+                  'UI/UX DESIGN',
+                  'Create intuitive interfaces and delightful user experiences by blending aesthetics with usability.',
+                  cardWidth,
+                  cardHeight,
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(20),
-                height: 300,
-                width: 300,
-                decoration: const BoxDecoration(
-                  color: Color(0xff1E1E1E),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(15),
-                  ),
+              ],
+            ),
+          ] else ...[
+            // Desktop layout - horizontal
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildServiceCard(
+                  'assets/images/Phone.png',
+                  'APP DEVELOPMENT',
+                  'Modern and mobile-ready application that will help you reach all of your marketing.',
+                  cardWidth,
+                  cardHeight,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.asset(
-                      'assets/images/Design.png',
-                      height:50,
-                    ),
-      
-                    Text('UI/UX DESIGN',style: GoogleFonts.poppins(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22
-                    ),),
-                    const Text('Create intuitive interfaces and delightful user experiences by blending aesthetics with usability.',
-                    style:TextStyle(color: Colors.white),textAlign: TextAlign.center),
-                  ],
+                _buildServiceCard(
+                  'assets/images/Design.png',
+                  'UI/UX DESIGN',
+                  'Create intuitive interfaces and delightful user experiences by blending aesthetics with usability.',
+                  cardWidth,
+                  cardHeight,
                 ),
-              ),
-              
-            ],
+              ],
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildServiceCard(String imagePath, String title, String description,
+      double width, double height) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      height: height,
+      width: width,
+      decoration: const BoxDecoration(
+        color: Color(0xff1E1E1E),
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Image.asset(
+            imagePath,
+            height: 50,
+          ),
+          Text(
+            title,
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            description,
+            style: const TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

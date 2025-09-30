@@ -81,29 +81,43 @@ class _HomescreenState extends State<Homescreen>
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = MediaQuery.of(context).size.width < 768;
+
     return Scaffold(
       backgroundColor: const Color(0xff131313),
       appBar: AppBar(
         backgroundColor: const Color(0xff131313),
-        actions: [
-          const Spacer(flex: 3),
-          _buildAppBarItem('Home', _homeKey),
-          if (MediaQuery.of(context).size.width > 500)
-            const Spacer(flex: 1), // Only use spacer if there's enough width
-          _buildAppBarItem('Services', _expertiseKey),
-          if (MediaQuery.of(context).size.width > 500) const Spacer(flex: 1),
-          _buildAppBarItem('Skills', _skillsKey),
-          if (MediaQuery.of(context).size.width > 500) const Spacer(flex: 1),
-          _buildAppBarItem('Projects', _projectsKey),
-          if (MediaQuery.of(context).size.width > 500) const Spacer(flex: 1),
-          _buildAppBarItem('Contact', _contactKey),
-          const Spacer(flex: 1),
-        ],
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: Text(
+          'Abhishek Pawar',
+          style: GoogleFonts.inter(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: isMobile
+            ? null
+            : [
+                const Spacer(flex: 3),
+                _buildAppBarItem('Home', _homeKey),
+                const Spacer(flex: 1),
+                _buildAppBarItem('Services', _expertiseKey),
+                const Spacer(flex: 1),
+                _buildAppBarItem('Skills', _skillsKey),
+                const Spacer(flex: 1),
+                _buildAppBarItem('Projects', _projectsKey),
+                const Spacer(flex: 1),
+                _buildAppBarItem('Contact', _contactKey),
+                const Spacer(flex: 1),
+              ],
       ),
+      drawer: isMobile ? _buildMobileDrawer() : null,
       body: LayoutBuilder(
         builder: (context, constraints) {
-          double marginHorizontal = constraints.maxWidth > 600 ? 40 : 20;
-          double sectionSpacing = constraints.maxWidth > 600 ? 100 : 50;
+          double marginHorizontal = constraints.maxWidth > 768 ? 40 : 16;
+          double sectionSpacing = constraints.maxWidth > 768 ? 100 : 50;
 
           return SingleChildScrollView(
             controller: _scrollController,
@@ -122,6 +136,7 @@ class _HomescreenState extends State<Homescreen>
                   _buildSection(Projects(key: _projectsKey)),
                   SizedBox(height: sectionSpacing / 2),
                   _buildSection(Contact(key: _contactKey)),
+                  const SizedBox(height: 50), // Bottom padding
                 ],
               ),
             ),
@@ -177,5 +192,69 @@ class _HomescreenState extends State<Homescreen>
 
   Widget _buildSection(Widget section) {
     return section;
+  }
+
+  Widget _buildMobileDrawer() {
+    return Drawer(
+      backgroundColor: const Color(0xff1E1E1E),
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: const BoxDecoration(
+              color: Color(0xff131313),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Abhishek Pawar',
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Flutter Developer',
+                  style: GoogleFonts.inter(
+                    color: const Color(0xffFF014F),
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          _buildDrawerItem('Home', _homeKey, Icons.home),
+          _buildDrawerItem('Services', _expertiseKey, Icons.work),
+          _buildDrawerItem('Skills', _skillsKey, Icons.star),
+          _buildDrawerItem('Projects', _projectsKey, Icons.folder),
+          _buildDrawerItem('Contact', _contactKey, Icons.contact_mail),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem(String title, GlobalKey sectionKey, IconData icon) {
+    bool isSelected = _selectedSection == title;
+
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: isSelected ? const Color(0xffFF014F) : Colors.white,
+      ),
+      title: Text(
+        title,
+        style: GoogleFonts.inter(
+          color: isSelected ? const Color(0xffFF014F) : Colors.white,
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+        ),
+      ),
+      onTap: () {
+        Navigator.pop(context); // Close drawer
+        _scrollToSection(sectionKey, title);
+      },
+    );
   }
 }

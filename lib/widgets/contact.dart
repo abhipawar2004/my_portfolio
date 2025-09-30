@@ -28,7 +28,11 @@ class _ContactState extends State<Contact> {
     required String subject,
     required String message,
   }) async {
-    if (name.isEmpty || email.isEmpty || phone.isEmpty || subject.isEmpty || message.isEmpty) {
+    if (name.isEmpty ||
+        email.isEmpty ||
+        phone.isEmpty ||
+        subject.isEmpty ||
+        message.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Center(child: Text('All fields are required!')),
@@ -95,7 +99,8 @@ class _ContactState extends State<Contact> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Center(child: Text('Failed to send message: ${response.body}')),
+          content:
+              Center(child: Text('Failed to send message: ${response.body}')),
           backgroundColor: Colors.red,
         ),
       );
@@ -104,202 +109,193 @@ class _ContactState extends State<Contact> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    bool isMobile = screenWidth < 768;
+    double padding = isMobile ? 20 : 100;
+
     return Container(
-      padding: const EdgeInsets.all(100),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Get In Touch',
-                  style: TextStyle(
-                    color: Color(0xffFFFFFF),
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 15),
-                RichText(
-                  text: const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Let’s Talk For your",
-                        style:
-                            TextStyle(color: Color(0xffFFFFFF), fontSize: 34),
-                      ),
-                      TextSpan(
-                        text: '\nNext Projects',
-                        style:
-                            TextStyle(color: Color(0xffFF014F), fontSize: 34),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 15),
-                const Text(
-                  'Discuss a project or just want to say hi?\nConnect with me via email or through a phone call.',
-                  style: TextStyle(color: Color(0xffB1B1B1), fontSize: 13),
-                ),
-              ],
-            ),
+      padding: EdgeInsets.all(padding),
+      child: isMobile ? _buildMobileLayout() : _buildDesktopLayout(),
+    );
+  }
+
+  Widget _buildMobileLayout() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildHeaderSection(),
+        const SizedBox(height: 30),
+        _buildContactForm(isMobile: true),
+      ],
+    );
+  }
+
+  Widget _buildDesktopLayout() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 2,
+          child: _buildHeaderSection(),
+        ),
+        const SizedBox(width: 50),
+        Expanded(
+          flex: 3,
+          child: _buildContactForm(isMobile: false),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeaderSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Get In Touch',
+          style: TextStyle(
+            color: Color(0xffFFFFFF),
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
           ),
-          const SizedBox(width: 50),
-          Expanded(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: nameController,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: "Full Name",
-                          hintStyle: const TextStyle(color: Colors.white54),
-                          filled: true,
-                          fillColor: const Color(0xff1E1E1E),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: TextFormField(
-                        controller: emailController,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: "Email Address",
-                          hintStyle: const TextStyle(color: Colors.white54),
-                          filled: true,
-                          fillColor: const Color(0xff1E1E1E),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: phoneController,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: "Phone Number",
-                          hintStyle: const TextStyle(color: Colors.white54),
-                          filled: true,
-                          fillColor: const Color(0xff1E1E1E),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: TextFormField(
-                        controller: subjectController,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: "Subject",
-                          hintStyle: const TextStyle(color: Colors.white54),
-                          filled: true,
-                          fillColor: const Color(0xff1E1E1E),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: messageController,
-                  maxLines: 5,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: "Message",
-                    hintStyle: const TextStyle(color: Colors.white54),
-                    filled: true,
-                    fillColor: const Color(0xff1E1E1E),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                SizedBox(
-                  height: 50,
-                  width: 250,
-                  child: ElevatedButton(
-                    onPressed: isLoading
-                        ? null
-                        : () {
-                            sendEmail(
-                              name: nameController.text,
-                              email: emailController.text,
-                              phone: phoneController.text,
-                              subject: subjectController.text,
-                              message: messageController.text,
-                            );
-                          },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xffFF014F),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 20),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: isLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                'Send Message',
-                                style:
-                                    TextStyle(fontSize: 16, color: Colors.white),
-                              ),
-                              Icon(Icons.send, color: Colors.white),
-                            ],
-                          ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                AnimatedOpacity(
-                  opacity: opacity,
-                  duration: const Duration(seconds: 1),
-                  child: const Center(
-                    child: Text(
-                      'Message sent successfully!',
-                      style: TextStyle(color: Colors.green, fontSize: 16),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+        ),
+        const SizedBox(height: 15),
+        RichText(
+          text: const TextSpan(
+            children: [
+              TextSpan(
+                text: "Let's Talk For your",
+                style: TextStyle(color: Color(0xffFFFFFF), fontSize: 34),
+              ),
+              TextSpan(
+                text: '\nNext Projects',
+                style: TextStyle(color: Color(0xffFF014F), fontSize: 34),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 15),
+        const Text(
+          'Discuss a project or just want to say hi?\nConnect with me via email or through a phone call.',
+          style: TextStyle(color: Color(0xffB1B1B1), fontSize: 13),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContactForm({required bool isMobile}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (isMobile) ...[
+          // Mobile layout - all fields full width
+          _buildTextField(nameController, "Full Name"),
+          const SizedBox(height: 20),
+          _buildTextField(emailController, "Email Address"),
+          const SizedBox(height: 20),
+          _buildTextField(phoneController, "Phone Number"),
+          const SizedBox(height: 20),
+          _buildTextField(subjectController, "Subject"),
+        ] else ...[
+          // Desktop layout - side by side
+          Row(
+            children: [
+              Expanded(child: _buildTextField(nameController, "Full Name")),
+              const SizedBox(width: 20),
+              Expanded(
+                  child: _buildTextField(emailController, "Email Address")),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(child: _buildTextField(phoneController, "Phone Number")),
+              const SizedBox(width: 20),
+              Expanded(child: _buildTextField(subjectController, "Subject")),
+            ],
           ),
         ],
+        const SizedBox(height: 20),
+        TextFormField(
+          controller: messageController,
+          maxLines: 5,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            hintText: "Message",
+            hintStyle: const TextStyle(color: Colors.white54),
+            filled: true,
+            fillColor: const Color(0xff1E1E1E),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none,
+            ),
+          ),
+        ),
+        const SizedBox(height: 30),
+        SizedBox(
+          height: 50,
+          width: isMobile ? double.infinity : 250,
+          child: ElevatedButton(
+            onPressed: isLoading
+                ? null
+                : () {
+                    sendEmail(
+                      name: nameController.text,
+                      email: emailController.text,
+                      phone: phoneController.text,
+                      subject: subjectController.text,
+                      message: messageController.text,
+                    );
+                  },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xffFF014F),
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: isLoading
+                ? const CircularProgressIndicator(color: Colors.white)
+                : const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'Send Message',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                      Icon(Icons.send, color: Colors.white),
+                    ],
+                  ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        AnimatedOpacity(
+          opacity: opacity,
+          duration: const Duration(seconds: 1),
+          child: const Center(
+            child: Text(
+              'Message sent successfully!',
+              style: TextStyle(color: Colors.green, fontSize: 16),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String hintText) {
+    return TextFormField(
+      controller: controller,
+      style: const TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: const TextStyle(color: Colors.white54),
+        filled: true,
+        fillColor: const Color(0xff1E1E1E),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
       ),
     );
   }

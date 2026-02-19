@@ -10,63 +10,88 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double padding = 50;
-    double fontSizeMain = 45;
-    double fontSizeSecondary = 28;
-    double buttonWidth = 180;
+    final isMobile = MediaQuery.of(context).size.width < 768;
+    
+    double padding = isMobile ? 20 : 50;
+    double fontSizeMain = isMobile ? 32 : 45;
+    double fontSizeSecondary = isMobile ? 18 : 28;
 
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(padding),
         width: double.infinity,
         child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Desktop layout - horizontal
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 3,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildTextContent(fontSizeMain, fontSizeSecondary),
-                    const SizedBox(height: 50),
-                    _buildDesktopButtons(buttonWidth),
-                    const SizedBox(height: 25),
-                    _buildSocialMediaRow(),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  height: 400,
-                  child: Image.asset(
-                    'assets/images/my.png',
-                    fit: BoxFit.contain,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (isMobile)
+              // Mobile layout - vertical
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    height: 300,
+                    width: double.infinity,
+                    child: Image.asset(
+                      'assets/images/my.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 30),
+                  _buildTextContent(fontSizeMain, fontSizeSecondary, isMobile),
+                  const SizedBox(height: 30),
+                  _buildMobileButtons(),
+                  const SizedBox(height: 20),
+                  _buildSocialMediaRow(),
+                ],
+              )
+            else
+              // Desktop layout - horizontal
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTextContent(fontSizeMain, fontSizeSecondary, isMobile),
+                        const SizedBox(height: 50),
+                        _buildDesktopButtons(),
+                        const SizedBox(height: 25),
+                        _buildSocialMediaRow(),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      padding: const EdgeInsets.all(5),
+                      height: 400,
+                      child: Image.asset(
+                        'assets/images/my.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ],
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildTextContent(double fontSizeMain, double fontSizeSecondary) {
+  Widget _buildTextContent(double fontSizeMain, double fontSizeSecondary, bool isMobile) {
     return Text.rich(
+      textAlign: isMobile ? TextAlign.center : TextAlign.start,
       TextSpan(
         children: [
           TextSpan(
             text: 'HELLO, MY NAME IS\n',
             style: TextStyle(
-              fontSize: 20,
+              fontSize: isMobile ? 14 : 20,
               color: const Color(0xffFFFFFF).withOpacity(0.651),
             ),
           ),
@@ -97,18 +122,18 @@ class HomeWidget extends StatelessWidget {
             text:
                 '\nPassionate Flutter Developer specializing in creating\ncross-platform mobile applications. Proficient in',
             style: GoogleFonts.katibeh(
-              textStyle: const TextStyle(
-                fontSize: 25,
-                color: Color(0xffFFFFFF),
+              textStyle: TextStyle(
+                fontSize: isMobile ? 16 : 25,
+                color: const Color(0xffFFFFFF),
               ),
             ),
           ),
           TextSpan(
             text: ' Flutter and Dart,',
             style: GoogleFonts.katibeh(
-              textStyle: const TextStyle(
-                fontSize: 25,
-                color: Color(0xffFF014F),
+              textStyle: TextStyle(
+                fontSize: isMobile ? 16 : 25,
+                color: const Color(0xffFF014F),
               ),
             ),
           ),
@@ -116,9 +141,9 @@ class HomeWidget extends StatelessWidget {
             text:
                 '\nwith a keen interest in integrating AI and APIs\ninto mobile experiences.',
             style: GoogleFonts.katibeh(
-              textStyle: const TextStyle(
-                fontSize: 25,
-                color: Color(0xffFFFFFF),
+              textStyle: TextStyle(
+                fontSize: isMobile ? 16 : 25,
+                color: const Color(0xffFFFFFF),
               ),
             ),
           ),
@@ -127,7 +152,7 @@ class HomeWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildDesktopButtons(double buttonWidth) {
+  Widget _buildDesktopButtons() {
     return Row(
       children: [
         _buildButton(
@@ -152,6 +177,39 @@ class HomeWidget extends StatelessWidget {
           borderColor: const Color(0xffFF014F),
           textColor: Colors.white,
           width: 160,
+          onPressed: () {
+            Scrollable.ensureVisible(contactKey.currentContext!);
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMobileButtons() {
+    return Column(
+      children: [
+        _buildButton(
+          text: 'Download Resume',
+          color: const Color(0xffFF014F),
+          textColor: Colors.white,
+          width: double.infinity,
+          onPressed: () async {
+            const url =
+                'https://www.dropbox.com/scl/fi/irx21lvy8rmjyaa1qzirt/AbhishekPawar_Resume.pdf?rlkey=vx332ghnxk56i8igbtqt8nkt1&st=85x1hns4&dl=1';
+            if (await canLaunch(url)) {
+              await launch(url);
+            } else {
+              throw 'Could not launch $url';
+            }
+          },
+        ),
+        const SizedBox(height: 12),
+        _buildButton(
+          text: 'Contact Me',
+          color: Colors.transparent,
+          borderColor: const Color(0xffFF014F),
+          textColor: Colors.white,
+          width: double.infinity,
           onPressed: () {
             Scrollable.ensureVisible(contactKey.currentContext!);
           },

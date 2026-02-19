@@ -57,14 +57,18 @@ class _ProjectsState extends State<Projects> {
 
   @override
   Widget build(BuildContext context) {
-    double margin = 50;
-    double spacing = 80;
+    final isMobile = MediaQuery.of(context).size.width < 768;
+    double margin = isMobile ? 0 : 50;
+    double spacing = isMobile ? 50 : 80;
 
     List<Map<String, dynamic>> displayedProjects =
         showAll ? allProjects : allProjects.take(3).toList();
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: margin),
+      padding: isMobile
+          ? const EdgeInsets.symmetric(horizontal: 16)
+          : EdgeInsets.zero,
       child: Column(
         children: [
           // Modern header with animation
@@ -90,7 +94,7 @@ class _ProjectsState extends State<Projects> {
                         text: 'Explore My ',
                         style: TextStyle(
                           color: const Color(0xffFFFFFF),
-                          fontSize: 42,
+                          fontSize: isMobile ? 28 : 42,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.5,
                         ),
@@ -99,7 +103,7 @@ class _ProjectsState extends State<Projects> {
                         text: 'Featured\n',
                         style: TextStyle(
                           color: const Color(0xffFF014F),
-                          fontSize: 42,
+                          fontSize: isMobile ? 28 : 42,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.5,
                         ),
@@ -108,7 +112,7 @@ class _ProjectsState extends State<Projects> {
                         text: 'Projects',
                         style: TextStyle(
                           color: const Color(0xffFFFFFF),
-                          fontSize: 42,
+                          fontSize: isMobile ? 28 : 42,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.5,
                         ),
@@ -117,18 +121,18 @@ class _ProjectsState extends State<Projects> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                const Text(
+                Text(
                   'Crafted with passion, built with precision',
                   style: TextStyle(
-                    color: Color(0xffB1B1B1),
-                    fontSize: 16,
+                    color: const Color(0xffB1B1B1),
+                    fontSize: isMobile ? 14 : 16,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 80),
+          const SizedBox(height: 60),
           // Display projects
           ...List.generate(displayedProjects.length, (index) {
             return Column(
@@ -137,7 +141,7 @@ class _ProjectsState extends State<Projects> {
                   title: displayedProjects[index]['title'],
                   description: displayedProjects[index]['description'],
                   imagePath: displayedProjects[index]['imagePath'],
-                  reverseLayout: index % 2 == 1,
+                  reverseLayout: !isMobile && index % 2 == 1,
                   index: index,
                 ),
                 if (index < displayedProjects.length - 1)
@@ -180,8 +184,10 @@ class _ProjectsState extends State<Projects> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.white,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isMobile ? 24 : 32,
+                  vertical: 20,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                   side: BorderSide(
@@ -294,12 +300,12 @@ class _ProjectCardState extends State<ProjectCard>
                 borderRadius: BorderRadius.circular(24),
                 child: Container(
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        const Color(0xff1E1E1E),
-                        const Color(0xff1A1A1A),
+                        Color(0xff1E1E1E),
+                        Color(0xff1A1A1A),
                       ],
                     ),
                     border: Border.all(
@@ -393,16 +399,16 @@ class _ProjectCardState extends State<ProjectCard>
                   width: 1,
                 ),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     Icons.phone_android_rounded,
-                    color: const Color(0xffFF014F),
+                    color: Color(0xffFF014F),
                     size: 16,
                   ),
-                  const SizedBox(width: 6),
-                  const Text(
+                  SizedBox(width: 6),
+                  Text(
                     'Mobile Application',
                     style: TextStyle(
                       color: Color(0xffFF014F),
@@ -428,8 +434,8 @@ class _ProjectCardState extends State<ProjectCard>
             // Description
             Text(
               widget.description,
-              style: TextStyle(
-                color: const Color(0xffB1B1B1),
+              style: const TextStyle(
+                color: Color(0xffB1B1B1),
                 fontSize: 15,
                 height: 1.7,
                 fontWeight: FontWeight.w400,
@@ -505,16 +511,16 @@ class _ProjectCardState extends State<ProjectCard>
               width: 1,
             ),
           ),
-          child: Row(
+          child: const Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 Icons.phone_android_rounded,
-                color: const Color(0xffFF014F),
+                color: Color(0xffFF014F),
                 size: 16,
               ),
-              const SizedBox(width: 6),
-              const Text(
+              SizedBox(width: 6),
+              Text(
                 'Mobile Application',
                 style: TextStyle(
                   color: Color(0xffFF014F),
@@ -539,8 +545,8 @@ class _ProjectCardState extends State<ProjectCard>
         // Description
         Text(
           widget.description,
-          style: TextStyle(
-            color: const Color(0xffB1B1B1),
+          style: const TextStyle(
+            color: Color(0xffB1B1B1),
             fontSize: 14,
             height: 1.6,
           ),

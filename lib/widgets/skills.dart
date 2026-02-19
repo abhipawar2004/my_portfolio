@@ -40,12 +40,12 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    double margin = 50;
-    int crossAxisCount = 3;
-    double gridWidth = 600;
-    double gridHeight = 500;
-    double crossAxisSpacing = 40;
-    double mainAxisSpacing = 40;
+    final isMobile = MediaQuery.of(context).size.width < 768;
+    double margin = isMobile ? 20 : 50;
+    int crossAxisCount = isMobile ? 2 : 3;
+    double gridWidth = isMobile ? MediaQuery.of(context).size.width - 40 : 600;
+    double crossAxisSpacing = isMobile ? 15 : 40;
+    double mainAxisSpacing = isMobile ? 15 : 40;
 
     return Container(
       margin: EdgeInsets.only(left: margin, right: margin, top: 20),
@@ -58,20 +58,20 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
                   text: 'My ',
                   style: TextStyle(
                       color: const Color(0xffFFFFFF),
-                      fontSize: 16),
+                      fontSize: isMobile ? 14 : 16),
                 ),
                 TextSpan(
                   text: 'Talent\n',
                   style: TextStyle(
                       color: const Color(0xffFF014F),
-                      fontSize: 16),
+                      fontSize: isMobile ? 14 : 16),
                 ),
                 TextSpan(
                   text: 'Professional Skills',
                   style: TextStyle(
                     color: const Color(0xffFFFFFF),
                     fontWeight: FontWeight.bold,
-                    fontSize: 34,
+                    fontSize: isMobile ? 24 : 34,
                   ),
                 ),
               ],
@@ -80,9 +80,10 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
           ),
           const SizedBox(height: 20),
           SizedBox(
-            height: gridHeight,
             width: gridWidth,
             child: GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: crossAxisSpacing,
               mainAxisSpacing: mainAxisSpacing,

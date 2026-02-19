@@ -81,6 +81,8 @@ class _HomescreenState extends State<Homescreen>
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 768;
+    
     return Scaffold(
       backgroundColor: const Color(0xff131313),
       appBar: AppBar(
@@ -91,11 +93,13 @@ class _HomescreenState extends State<Homescreen>
           'Abhishek Pawar',
           style: GoogleFonts.inter(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: isMobile ? 16 : 20,
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
+        actions: isMobile
+            ? []
+            : [
                 const Spacer(flex: 3),
                 _buildAppBarItem('Home', _homeKey),
                 const Spacer(flex: 1),
@@ -109,10 +113,11 @@ class _HomescreenState extends State<Homescreen>
                 const Spacer(flex: 1),
               ],
       ),
+      drawer: isMobile ? _buildDrawer() : null,
       body: LayoutBuilder(
         builder: (context, constraints) {
-          double marginHorizontal = 40;
-          double sectionSpacing = 100;
+          double marginHorizontal = isMobile ? 20 : 40;
+          double sectionSpacing = isMobile ? 60 : 100;
 
           return SingleChildScrollView(
             controller: _scrollController,
@@ -131,13 +136,68 @@ class _HomescreenState extends State<Homescreen>
                   _buildSection(Projects(key: _projectsKey)),
                   SizedBox(height: sectionSpacing / 2),
                   _buildSection(Contact(key: _contactKey)),
-                  const SizedBox(height: 50), // Bottom padding
+                  const SizedBox(height: 50),
                 ],
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  Widget _buildDrawer() {
+    return Drawer(
+      backgroundColor: const Color(0xff1E1E1E),
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xffFF014F),
+                  Color(0xff1E1E1E),
+                ],
+              ),
+            ),
+            child: Text(
+              'Menu',
+              style: GoogleFonts.inter(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          _buildDrawerItem('Home', _homeKey),
+          _buildDrawerItem('Services', _expertiseKey),
+          _buildDrawerItem('Skills', _skillsKey),
+          _buildDrawerItem('Projects', _projectsKey),
+          _buildDrawerItem('Contact', _contactKey),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem(String title, GlobalKey sectionKey) {
+    return ListTile(
+      title: Text(
+        title,
+        style: GoogleFonts.inter(
+          color: _selectedSection == title
+              ? const Color(0xffFF014F)
+              : Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      onTap: () {
+        _scrollToSection(sectionKey, title);
+        Navigator.pop(context);
+      },
     );
   }
 

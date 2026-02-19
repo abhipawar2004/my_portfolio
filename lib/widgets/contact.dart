@@ -131,8 +131,12 @@ class _ContactState extends State<Contact> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 768;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 100),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 20 : 50,
+        vertical: isMobile ? 50 : 100,
+      ),
       child: LayoutBuilder(
         builder: (context, constraints) {
           bool isWideScreen = constraints.maxWidth > 900;

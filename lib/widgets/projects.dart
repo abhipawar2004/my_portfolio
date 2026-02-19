@@ -1,12 +1,67 @@
 import 'package:flutter/material.dart';
 
-class Projects extends StatelessWidget {
+class Projects extends StatefulWidget {
   const Projects({super.key});
+
+  @override
+  State<Projects> createState() => _ProjectsState();
+}
+
+class _ProjectsState extends State<Projects> {
+  bool showAll = false;
+
+  final List<Map<String, dynamic>> allProjects = [
+    {
+      'title': 'MyRidez',
+      'description':
+          'A comprehensive ride-sharing application with real-time tracking, secure payments, and seamless booking experience for users.',
+      'imagePath': 'assets/images/MyRidez.png',
+    },
+    {
+      'title': 'ReflexoCure',
+      'description':
+          'Healthcare management system offering appointment scheduling, patient records management, and telemedicine consultations.',
+      'imagePath': 'assets/images/ReflexoCure.png',
+    },
+    {
+      'title': 'Mkart',
+      'description':
+          'E-commerce platform with intuitive UI, product catalog, cart management, and integrated payment gateway for smooth transactions.',
+      'imagePath': 'assets/images/Mkart.png',
+    },
+    {
+      'title': 'SIP Capital',
+      'description':
+          'Investment and portfolio management app with real-time market data, analytics, and personalized investment recommendations.',
+      'imagePath': 'assets/images/SIPCapital.png',
+    },
+    {
+      'title': 'BillWiz',
+      'description':
+          'This app lets users browse a restaurant menu, add items to their cart, and choose full or half portions. Users can adjust quantities, edit, or remove items with ease, providing a smooth and intuitive ordering experience.',
+      'imagePath': 'assets/images/BillWiz.png',
+    },
+    {
+      'title': 'Shopping App',
+      'description':
+          'Integrated features include user authentication, cart management, order tracking, and secure payment options, reducing login time by 20%.',
+      'imagePath': 'assets/images/Shop.png',
+    },
+    {
+      'title': 'MealMate',
+      'description':
+          'Features include a favorite section, filtering options for dietary preferences like gluten-free, lactose-free, vegan, and vegetarian recipes, as well as displaying meal duration, complexity, expenses, ingredients, and steps.',
+      'imagePath': 'assets/images/Meal.png',
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
     double margin = 50;
     double spacing = 80;
+
+    List<Map<String, dynamic>> displayedProjects =
+        showAll ? allProjects : allProjects.take(3).toList();
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: margin),
@@ -74,29 +129,69 @@ class Projects extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 80),
-          ProjectCard(
-            title: 'BillWiz',
-            description:
-                'This app lets users browse a restaurant menu, add items to their cart, and choose full or half portions. Users can adjust quantities, edit, or remove items with ease, providing a smooth and intuitive ordering experience.',
-            imagePath: 'assets/images/BillWiz.png',
-            index: 0,
-          ),
-          SizedBox(height: spacing),
-          ProjectCard(
-            title: 'Shopping App',
-            description:
-                'Integrated features include user authentication, cart management, order tracking, and secure payment options, reducing login time by 20%.',
-            imagePath: 'assets/images/Shop.png',
-            reverseLayout: true,
-            index: 1,
-          ),
-          SizedBox(height: spacing),
-          ProjectCard(
-            title: 'MealMate',
-            description:
-                'Features include a favorite section, filtering options for dietary preferences like gluten-free, lactose-free, vegan, and vegetarian recipes, as well as displaying meal duration, complexity, expenses, ingredients, and steps.',
-            imagePath: 'assets/images/Meal.png',
-            index: 2,
+          // Display projects
+          ...List.generate(displayedProjects.length, (index) {
+            return Column(
+              children: [
+                ProjectCard(
+                  title: displayedProjects[index]['title'],
+                  description: displayedProjects[index]['description'],
+                  imagePath: displayedProjects[index]['imagePath'],
+                  reverseLayout: index % 2 == 1,
+                  index: index,
+                ),
+                if (index < displayedProjects.length - 1)
+                  SizedBox(height: spacing),
+              ],
+            );
+          }),
+          const SizedBox(height: 60),
+          // See More / See Less Button
+          TweenAnimationBuilder(
+            duration: const Duration(milliseconds: 600),
+            tween: Tween<double>(begin: 0, end: 1),
+            builder: (context, double value, child) {
+              return Opacity(
+                opacity: value,
+                child: Transform.translate(
+                  offset: Offset(0, 20 * (1 - value)),
+                  child: child,
+                ),
+              );
+            },
+            child: ElevatedButton.icon(
+              onPressed: () {
+                setState(() {
+                  showAll = !showAll;
+                });
+              },
+              icon: Icon(
+                showAll ? Icons.expand_less_rounded : Icons.expand_more_rounded,
+                size: 24,
+              ),
+              label: Text(
+                showAll ? 'Show Less' : 'See More Projects',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                foregroundColor: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  side: BorderSide(
+                    color: const Color(0xffFF014F).withOpacity(0.5),
+                    width: 2,
+                  ),
+                ),
+                elevation: 0,
+              ),
+            ),
           ),
         ],
       ),

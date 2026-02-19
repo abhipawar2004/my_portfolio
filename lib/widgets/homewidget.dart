@@ -10,78 +10,50 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isMobile = screenWidth < 768;
-    double padding = isMobile ? 16 : 50;
-    double fontSizeMain = isMobile ? 28 : 45;
-    double fontSizeSecondary = isMobile ? 18 : 28;
-    double buttonWidth = isMobile ? screenWidth * 0.4 : 180;
+    double padding = 50;
+    double fontSizeMain = 45;
+    double fontSizeSecondary = 28;
+    double buttonWidth = 180;
 
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(padding),
         width: double.infinity,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (isMobile) ...[
-              // Mobile layout - vertical stack
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Image first on mobile
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    height: 300,
-                    width: double.infinity,
-                    child: Image.asset(
-                      'assets/images/my.png',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // Text content
-                  _buildTextContent(fontSizeMain, fontSizeSecondary),
-                  const SizedBox(height: 30),
-                  _buildMobileButtons(buttonWidth),
-                  const SizedBox(height: 25),
-                  _buildSocialMediaRow(),
-                ],
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Desktop layout - horizontal
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildTextContent(fontSizeMain, fontSizeSecondary),
+                    const SizedBox(height: 50),
+                    _buildDesktopButtons(buttonWidth),
+                    const SizedBox(height: 25),
+                    _buildSocialMediaRow(),
+                  ],
+                ),
               ),
-            ] else ...[
-              // Desktop layout - horizontal
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildTextContent(fontSizeMain, fontSizeSecondary),
-                        const SizedBox(height: 50),
-                        _buildDesktopButtons(buttonWidth),
-                        const SizedBox(height: 25),
-                        _buildSocialMediaRow(),
-                      ],
-                    ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  height: 400,
+                  child: Image.asset(
+                    'assets/images/my.png',
+                    fit: BoxFit.contain,
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      height: 400,
-                      child: Image.asset(
-                        'assets/images/my.png',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ],
-          ],
+          ),
+        ],
         ),
       ),
     );
@@ -123,7 +95,7 @@ class HomeWidget extends StatelessWidget {
           ),
           TextSpan(
             text:
-                '\nB-Tech student majoring in Computer Science\nwith Artificial Intelligence with a focused interest in',
+                '\nPassionate Flutter Developer specializing in creating\ncross-platform mobile applications. Proficient in',
             style: GoogleFonts.katibeh(
               textStyle: const TextStyle(
                 fontSize: 25,
@@ -132,7 +104,7 @@ class HomeWidget extends StatelessWidget {
             ),
           ),
           TextSpan(
-            text: ' Flutter development',
+            text: ' Flutter and Dart,',
             style: GoogleFonts.katibeh(
               textStyle: const TextStyle(
                 fontSize: 25,
@@ -140,41 +112,18 @@ class HomeWidget extends StatelessWidget {
               ),
             ),
           ),
+          TextSpan(
+            text:
+                '\nwith a keen interest in integrating AI and APIs\ninto mobile experiences.',
+            style: GoogleFonts.katibeh(
+              textStyle: const TextStyle(
+                fontSize: 25,
+                color: Color(0xffFFFFFF),
+              ),
+            ),
+          ),
         ],
       ),
-    );
-  }
-
-  Widget _buildMobileButtons(double buttonWidth) {
-    return Column(
-      children: [
-        _buildButton(
-          text: 'Download Resume',
-          color: const Color(0xffFF014F),
-          textColor: Colors.white,
-          width: buttonWidth * 2,
-          onPressed: () async {
-            const url =
-                'https://www.dropbox.com/scl/fi/irx21lvy8rmjyaa1qzirt/AbhishekPawar_Resume.pdf?rlkey=vx332ghnxk56i8igbtqt8nkt1&st=85x1hns4&dl=1';
-            if (await canLaunch(url)) {
-              await launch(url);
-            } else {
-              throw 'Could not launch $url';
-            }
-          },
-        ),
-        const SizedBox(height: 15),
-        _buildButton(
-          text: 'Contact Me',
-          color: Colors.transparent,
-          borderColor: const Color(0xffFF014F),
-          textColor: Colors.white,
-          width: buttonWidth * 2,
-          onPressed: () {
-            Scrollable.ensureVisible(contactKey.currentContext!);
-          },
-        ),
-      ],
     );
   }
 

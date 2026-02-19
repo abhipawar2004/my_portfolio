@@ -6,11 +6,9 @@ class ExpertiseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isMobile = screenWidth < 768;
-    double margin = isMobile ? 16 : 50;
-    double cardWidth = isMobile ? screenWidth - 64 : 300;
-    double cardHeight = isMobile ? 280 : 300;
+    double margin = 50;
+    double cardWidth = 300;
+    double cardHeight = 300;
 
     return Container(
       margin: EdgeInsets.only(left: margin, right: margin, top: 20),
@@ -22,80 +20,52 @@ class ExpertiseScreen extends StatelessWidget {
                 TextSpan(
                   text: 'I like to make things easy and fun\n\n',
                   style: TextStyle(
-                      color: const Color(0xffFFFFFF),
-                      fontSize: isMobile ? 14 : 16),
+                      color: const Color(0xffFFFFFF), fontSize: 16),
                 ),
                 TextSpan(
                   text: 'My ',
                   style: TextStyle(
-                      color: const Color(0xffFFFFFF),
-                      fontSize: isMobile ? 28 : 34),
+                      color: const Color(0xffFFFFFF), fontSize: 34),
                 ),
                 TextSpan(
                   text: 'Special Services ',
                   style: TextStyle(
-                      color: const Color(0xffFF014F),
-                      fontSize: isMobile ? 28 : 34),
+                      color: const Color(0xffFF014F), fontSize: 34),
                 ),
                 TextSpan(
                   text: 'for your\n' 'Business ',
                   style: TextStyle(
-                      color: const Color(0xffFFFFFF),
-                      fontSize: isMobile ? 28 : 34),
+                      color: const Color(0xffFFFFFF), fontSize: 34),
                 ),
                 TextSpan(
                   text: 'Development\n\n',
                   style: TextStyle(
-                      color: const Color(0xffFF014F),
-                      fontSize: isMobile ? 28 : 34),
+                      color: const Color(0xffFF014F), fontSize: 34),
                 ),
               ],
             ),
             textAlign: TextAlign.center,
           ),
-          if (isMobile) ...[
-            // Mobile layout - vertical stack
-            Column(
-              children: [
-                _buildServiceCard(
-                  'assets/images/Phone.png',
-                  'APP DEVELOPMENT',
-                  'Modern and mobile-ready application that will help you reach all of your marketing.',
-                  cardWidth,
-                  cardHeight,
-                ),
-                const SizedBox(height: 20),
-                _buildServiceCard(
-                  'assets/images/Design.png',
-                  'UI/UX DESIGN',
-                  'Create intuitive interfaces and delightful user experiences by blending aesthetics with usability.',
-                  cardWidth,
-                  cardHeight,
-                ),
-              ],
-            ),
-          ] else ...[
-            // Desktop layout - horizontal
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildServiceCard(
-                  'assets/images/Phone.png',
-                  'APP DEVELOPMENT',
-                  'Modern and mobile-ready application that will help you reach all of your marketing.',
-                  cardWidth,
-                  cardHeight,
-                ),
-                _buildServiceCard(
-                  'assets/images/Design.png',
-                  'UI/UX DESIGN',
-                  'Create intuitive interfaces and delightful user experiences by blending aesthetics with usability.',
-                  cardWidth,
-                  cardHeight,
-                ),
-              ],
-            ),
-          ],
+          // Desktop layout - horizontal
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildServiceCard(
+                'assets/images/Phone.png',
+                'APP DEVELOPMENT',
+                'Modern and mobile-ready application that will help you reach all of your marketing.',
+                cardWidth,
+                cardHeight,
+              ),
+              _buildServiceCard(
+                'assets/images/Design.png',
+                'UI/UX DESIGN',
+                'Create intuitive interfaces and delightful user experiences by blending aesthetics with usability.',
+                cardWidth,
+                cardHeight,
+              ),
+            ],
+          ),
         ],
       ),
     );

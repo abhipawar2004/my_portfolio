@@ -40,14 +40,12 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isMobile = screenWidth < 768;
-    double margin = isMobile ? 16 : 50;
-    int crossAxisCount = isMobile ? 2 : 3;
-    double gridWidth = isMobile ? screenWidth - 64 : 600;
-    double gridHeight = isMobile ? 400 : 500;
-    double crossAxisSpacing = isMobile ? 20 : 40;
-    double mainAxisSpacing = isMobile ? 20 : 40;
+    double margin = 50;
+    int crossAxisCount = 3;
+    double gridWidth = 600;
+    double gridHeight = 500;
+    double crossAxisSpacing = 40;
+    double mainAxisSpacing = 40;
 
     return Container(
       margin: EdgeInsets.only(left: margin, right: margin, top: 20),
@@ -60,20 +58,20 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
                   text: 'My ',
                   style: TextStyle(
                       color: const Color(0xffFFFFFF),
-                      fontSize: isMobile ? 14 : 16),
+                      fontSize: 16),
                 ),
                 TextSpan(
                   text: 'Talent\n',
                   style: TextStyle(
                       color: const Color(0xffFF014F),
-                      fontSize: isMobile ? 14 : 16),
+                      fontSize: 16),
                 ),
                 TextSpan(
                   text: 'Professional Skills',
                   style: TextStyle(
                     color: const Color(0xffFFFFFF),
                     fontWeight: FontWeight.bold,
-                    fontSize: isMobile ? 28 : 34,
+                    fontSize: 34,
                   ),
                 ),
               ],
@@ -120,7 +118,6 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
                         index == selectedCardIndex
                             ? _animation.value
                             : 0, // Apply flip to selected card
-                        isMobile,
                       );
                     },
                   ),
@@ -133,9 +130,9 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _card(String title, String imagepath, double rotation, bool isMobile) {
-    double imageSize = isMobile ? 40 : 60;
-    double fontSize = isMobile ? 12 : 15;
+  Widget _card(String title, String imagepath, double rotation) {
+    double imageSize = 60;
+    double fontSize = 15;
 
     // Flip effect using rotationY for 3D flip animation
     return Transform(
@@ -154,7 +151,7 @@ class _SkillsState extends State<Skills> with SingleTickerProviderStateMixin {
               height: imageSize,
               width: imageSize,
             ),
-            SizedBox(height: isMobile ? 8 : 10),
+            SizedBox(height: 10),
             Text(
               title,
               style: TextStyle(

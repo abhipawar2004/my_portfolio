@@ -109,24 +109,11 @@ class _ContactState extends State<Contact> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isMobile = screenWidth < 768;
-    double padding = isMobile ? 20 : 100;
+    double padding = 100;
 
     return Container(
       padding: EdgeInsets.all(padding),
-      child: isMobile ? _buildMobileLayout() : _buildDesktopLayout(),
-    );
-  }
-
-  Widget _buildMobileLayout() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildHeaderSection(),
-        const SizedBox(height: 30),
-        _buildContactForm(isMobile: true),
-      ],
+      child: _buildDesktopLayout(),
     );
   }
 
@@ -141,7 +128,7 @@ class _ContactState extends State<Contact> {
         const SizedBox(width: 50),
         Expanded(
           flex: 3,
-          child: _buildContactForm(isMobile: false),
+          child: _buildContactForm(),
         ),
       ],
     );
@@ -183,38 +170,27 @@ class _ContactState extends State<Contact> {
     );
   }
 
-  Widget _buildContactForm({required bool isMobile}) {
+  Widget _buildContactForm() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (isMobile) ...[
-          // Mobile layout - all fields full width
-          _buildTextField(nameController, "Full Name"),
-          const SizedBox(height: 20),
-          _buildTextField(emailController, "Email Address"),
-          const SizedBox(height: 20),
-          _buildTextField(phoneController, "Phone Number"),
-          const SizedBox(height: 20),
-          _buildTextField(subjectController, "Subject"),
-        ] else ...[
-          // Desktop layout - side by side
-          Row(
-            children: [
-              Expanded(child: _buildTextField(nameController, "Full Name")),
-              const SizedBox(width: 20),
-              Expanded(
-                  child: _buildTextField(emailController, "Email Address")),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(child: _buildTextField(phoneController, "Phone Number")),
-              const SizedBox(width: 20),
-              Expanded(child: _buildTextField(subjectController, "Subject")),
-            ],
-          ),
-        ],
+        // Desktop layout - side by side
+        Row(
+          children: [
+            Expanded(child: _buildTextField(nameController, "Full Name")),
+            const SizedBox(width: 20),
+            Expanded(
+                child: _buildTextField(emailController, "Email Address")),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            Expanded(child: _buildTextField(phoneController, "Phone Number")),
+            const SizedBox(width: 20),
+            Expanded(child: _buildTextField(subjectController, "Subject")),
+          ],
+        ),
         const SizedBox(height: 20),
         TextFormField(
           controller: messageController,
@@ -234,7 +210,7 @@ class _ContactState extends State<Contact> {
         const SizedBox(height: 30),
         SizedBox(
           height: 50,
-          width: isMobile ? double.infinity : 250,
+          width: 250,
           child: ElevatedButton(
             onPressed: isLoading
                 ? null

@@ -15,45 +15,48 @@ class _ProjectsState extends State<Projects> {
       'title': 'MyRidez',
       'description':
           'A comprehensive ride-sharing application with real-time tracking, secure payments, and seamless booking experience for users.',
-      'imagePath': 'assets/images/MyRidez.png',
+      'imagePaths': ['assets/images/MyRidez.png'],
     },
     {
       'title': 'ReflexoCure',
       'description':
           'Healthcare management system offering appointment scheduling, patient records management, and telemedicine consultations.',
-      'imagePath': 'assets/images/ReflexoCure.png',
+      'imagePaths': ['assets/images/ReflexoCure.png'],
     },
-    /*
     {
       'title': 'Mkart',
       'description':
           'E-commerce platform with intuitive UI, product catalog, cart management, and integrated payment gateway for smooth transactions.',
-      'imagePath': 'assets/images/Mkart.png',
+      'imagePaths': [
+        'assets/images/2.png',
+        'assets/images/3.png',
+        'assets/images/4.png',
+        'assets/images/a.png',
+      ],
     },
-    */
     {
       'title': 'SIP Capital',
       'description':
           'Investment and portfolio management app with real-time market data, analytics, and personalized investment recommendations.',
-      'imagePath': 'assets/images/SIPCapital.png',
+      'imagePaths': ['assets/images/SIPCapital.png'],
     },
     {
       'title': 'BillWiz',
       'description':
           'This app lets users browse a restaurant menu, add items to their cart, and choose full or half portions. Users can adjust quantities, edit, or remove items with ease, providing a smooth and intuitive ordering experience.',
-      'imagePath': 'assets/images/BillWiz.png',
+      'imagePaths': ['assets/images/BillWiz.png'],
     },
     {
       'title': 'Shopping App',
       'description':
           'Integrated features include user authentication, cart management, order tracking, and secure payment options, reducing login time by 20%.',
-      'imagePath': 'assets/images/Shop.png',
+      'imagePaths': ['assets/images/Shop.png'],
     },
     {
       'title': 'MealMate',
       'description':
           'Features include a favorite section, filtering options for dietary preferences like gluten-free, lactose-free, vegan, and vegetarian recipes, as well as displaying meal duration, complexity, expenses, ingredients, and steps.',
-      'imagePath': 'assets/images/Meal.png',
+      'imagePaths': ['assets/images/Meal.png'],
     },
   ];
 
@@ -142,7 +145,8 @@ class _ProjectsState extends State<Projects> {
                 ProjectCard(
                   title: displayedProjects[index]['title'],
                   description: displayedProjects[index]['description'],
-                  imagePath: displayedProjects[index]['imagePath'],
+                  imagePaths: List<String>.from(
+                      displayedProjects[index]['imagePaths'] as List),
                   reverseLayout: !isMobile && index % 2 == 1,
                   index: index,
                 ),
@@ -210,7 +214,7 @@ class _ProjectsState extends State<Projects> {
 class ProjectCard extends StatefulWidget {
   final String title;
   final String description;
-  final String imagePath;
+  final List<String> imagePaths;
   final bool reverseLayout;
   final int index;
 
@@ -218,7 +222,7 @@ class ProjectCard extends StatefulWidget {
     super.key,
     required this.title,
     required this.description,
-    required this.imagePath,
+    required this.imagePaths,
     this.reverseLayout = false,
     required this.index,
   });
@@ -232,6 +236,8 @@ class _ProjectCardState extends State<ProjectCard>
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _elevationAnimation;
+  late PageController _pageController;
+  int _currentImageIndex = 0;
   bool isHovered = false;
 
   @override
@@ -249,10 +255,13 @@ class _ProjectCardState extends State<ProjectCard>
     _elevationAnimation = Tween<double>(begin: 0, end: 20).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
     );
+
+    _pageController = PageController();
   }
 
   @override
   void dispose() {
+    _pageController.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -264,6 +273,13 @@ class _ProjectCardState extends State<ProjectCard>
     } else {
       _controller.reverse();
     }
+  }
+
+  void _onImageChanged(int index) {
+    if (!mounted) return;
+    setState(() {
+      _currentImageIndex = index;
+    });
   }
 
   @override
@@ -340,48 +356,7 @@ class _ProjectCardState extends State<ProjectCard>
   }
 
   Widget _buildDesktopLayout() {
-    final imageWidget = Transform.scale(
-      scale: _scaleAnimation.value,
-      child: Container(
-        width: 480,
-        height: 340,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 20,
-              spreadRadius: 5,
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image.asset(
-                widget.imagePath,
-                fit: BoxFit.cover,
-              ),
-              // Gradient overlay
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.transparent,
-                      Colors.black.withOpacity(isHovered ? 0.6 : 0.3),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    final imageWidget = _buildScreenshotCarousel(width: 480, height: 340);
 
     final textWidget = Expanded(
       child: Padding(
@@ -479,28 +454,8 @@ class _ProjectCardState extends State<ProjectCard>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Image
-        Container(
-          width: double.infinity,
-          height: 240,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 20,
-                spreadRadius: 5,
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
-              widget.imagePath,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
+        // Screenshot carousel
+        _buildScreenshotCarousel(width: double.infinity, height: 240),
         const SizedBox(height: 24),
         // Badge
         Container(
@@ -572,6 +527,105 @@ class _ProjectCardState extends State<ProjectCard>
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildScreenshotCarousel(
+      {required double width, required double height}) {
+    final hasMultipleImages = widget.imagePaths.length > 1;
+
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 20,
+            spreadRadius: 5,
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            PageView.builder(
+              controller: _pageController,
+              itemCount: widget.imagePaths.length,
+              onPageChanged: _onImageChanged,
+              itemBuilder: (context, index) {
+                return Image.asset(
+                  widget.imagePaths[index],
+                  fit: BoxFit.cover,
+                );
+              },
+            ),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withOpacity(isHovered ? 0.5 : 0.2),
+                  ],
+                ),
+              ),
+            ),
+            if (hasMultipleImages)
+              Positioned(
+                left: 16,
+                right: 16,
+                bottom: 16,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(widget.imagePaths.length, (index) {
+                    final isActive = index == _currentImageIndex;
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      width: isActive ? 22 : 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: isActive
+                            ? const Color(0xffFF014F)
+                            : Colors.white.withOpacity(0.45),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            if (hasMultipleImages)
+              Positioned(
+                top: 16,
+                right: 16,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.35),
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.15),
+                    ),
+                  ),
+                  child: Text(
+                    '${_currentImageIndex + 1}/${widget.imagePaths.length}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 

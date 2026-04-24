@@ -23,12 +23,14 @@ class _ProjectsState extends State<Projects> {
           'Healthcare management system offering appointment scheduling, patient records management, and telemedicine consultations.',
       'imagePath': 'assets/images/ReflexoCure.png',
     },
+    /*
     {
       'title': 'Mkart',
       'description':
           'E-commerce platform with intuitive UI, product catalog, cart management, and integrated payment gateway for smooth transactions.',
       'imagePath': 'assets/images/Mkart.png',
     },
+    */
     {
       'title': 'SIP Capital',
       'description':
